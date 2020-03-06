@@ -11,43 +11,16 @@ import java.util.ArrayList;
 //Autor Jhony Caro
 
 public class Controlador{
-
+    
     public static void main(String[] args) {
-        Recuperar();
     }
     
     public static void Guardar(){
         int xd = 5;
         ArrayList<Perfil> perfiles = new ArrayList<Perfil>();
         for (int i =0;i<xd;i++){
-            perfiles.add(new Perfil() {
-                @Override
-                public void Registrarse() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public void EliminarCuenta() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public void CambiarContrasena() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public void VerInfoPersonal() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public void RecuperarContrasena() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-            });
-            perfiles.get(i).nombre= "Jhony Alejandro";
-            perfiles.get(i).apellido = "Caro Umbariba";
+            perfiles.add(new Perfil());
+            perfiles.get(i).nombre= "Jhony Alejandro Caro Umbariba";
             perfiles.get(i).correo = "Jhonycaro1998@gmail.com";    
         }
         
@@ -56,7 +29,6 @@ public class Controlador{
             ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
             ob.writeObject(perfiles);
             ob.close();
-    
         } catch(FileNotFoundException e){
             e.printStackTrace();
         } catch(IOException e){
@@ -64,6 +36,7 @@ public class Controlador{
         }
         
     }
+    
     public static void Recuperar(){
         String archivo = "Usuarios.txt";
         ArrayList<Perfil> perfiles2 = new ArrayList<Perfil>();
@@ -84,5 +57,18 @@ public class Controlador{
             System.out.println(perfiles2.get(f).correo);
         }*/
     }
+
+    public void IniciarSesion(){
+        //revisar q la base de datos (usuarios) no esté vacia, xq si lo está, la unica opcion sera registrarse
+        //llamar el entorno grafico
+        //contrastar this.nombre y this.contrasena en la base de datos
+        
+    }
+    
+    public static void Registrarse(){}
+    public static void EliminarCuenta(){}
+    public static void CambiarContrasenas(){}
+    public static void VerInfoPersonal(){}
+    public static void RecuperarContrasena(){}
 }
 
