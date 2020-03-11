@@ -1,6 +1,8 @@
 package Logica;
+
 import java.text.ParseException;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,21 +13,17 @@ public class Usuario extends Perfil{
         this.nombre="";
         this.Contraseña="";
         this.correo="";
-        try {
-            this.fecha_nacimiento = sdf.parse("01-01-1998");
-        } catch (ParseException ex) {
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,1);
         this.rol=false;
     }
     
     // Constructor parametrico
-    public Usuario(String nombre, Date fecha_nacimiento, String correo, String Contraseña, boolean rol) {
+    public Usuario(String nombre, Calendar fecha_nacimiento, String correo, String Contraseña) {
         this.nombre = nombre;
         this.fecha_nacimiento = fecha_nacimiento;
         this.correo = correo;
         this.Contraseña = Contraseña;
-        this.rol = rol;
+        this.rol = false;
     }
     
 }

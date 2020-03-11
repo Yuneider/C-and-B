@@ -7,21 +7,26 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 //Autor Jhony Caro
-
 public class Controlador{
     
     public static void main(String[] args) {
-    }
+        
+    }    
     
     public static void Guardar(){
-        int xd = 5;
+        int xd = 1;
         ArrayList<Perfil> perfiles = new ArrayList<Perfil>();
         for (int i =0;i<xd;i++){
             perfiles.add(new Perfil());
-            perfiles.get(i).nombre= "Jhony Alejandro Caro Umbariba";
-            perfiles.get(i).correo = "Jhonycaro1998@gmail.com";    
+            perfiles.get(i).nombre="Jhony Alejandro Caro Umbariba";
+            perfiles.get(i).correo="Jhonycaro1998@gmail.com";   
+            perfiles.get(i).Contraseña="20191020055";
+            perfiles.get(i).fecha_nacimiento = new GregorianCalendar();
+            perfiles.get(i).rol=true;
         }
         
         String archivo = "Usuarios.txt";
@@ -33,8 +38,7 @@ public class Controlador{
             e.printStackTrace();
         } catch(IOException e){
             e.printStackTrace();
-        }
-        
+        }   
     }
     
     public static void Recuperar(){
