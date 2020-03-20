@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 
 public class IniciarSesion extends JFrame{
     
-private String usuario;
-private String contraseña;
+public String usuario;
+public String contrasena;
 
     public IniciarSesion(){
         //Creacion de colores
@@ -108,7 +108,7 @@ private String contraseña;
         ActionListener ingresar = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 usuario=jtf_usuario.getText();
-                contraseña=pwf.getText();
+                contrasena=pwf.getText();
             }
         };
         
@@ -124,7 +124,6 @@ private String contraseña;
         }
     };
 
-
     public String getUsuario() {
         return usuario;
     }
@@ -133,12 +132,12 @@ private String contraseña;
         this.usuario = usuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contraseña) {
+        this.contrasena = contrasena;
     }
 
 }
