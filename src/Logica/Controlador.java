@@ -13,26 +13,38 @@ import java.util.GregorianCalendar;
 //Autor Jhony Caro
 public class Controlador{
     
+    //ARREGLO DE PERFILES RECUPERADOS
+    private static ArrayList<Perfil> perfiles;
+    private static int tamano=1;
+    
     public static void main(String[] args) {
+        //CREAR ADMI
+        Guardar("Jhony Alejandro Caro Umbariba","Jhonycaro1998@gmail.com","20191020055",new GregorianCalendar(2001,Calendar.OCTOBER,22),true);
+        Registrarse("Yune","yune@holi.com","123",new GregorianCalendar(2001,Calendar.OCTOBER,22));
+        Recuperar();
+        IniciarSesion("yune@holi.com","123");
         
+        
+        
+        /*Calendar fecha = new GregorianCalendar(2001,Calendar.OCTOBER,22);
+        System.out.println(fecha.get(Calendar.MONTH));*/    
     }    
     
-    public static void Guardar(){
-        int xd = 1;
-        ArrayList<Perfil> perfiles = new ArrayList<Perfil>();
-        for (int i =0;i<xd;i++){
-            perfiles.add(new Perfil());
-            perfiles.get(i).nombre="Jhony Alejandro Caro Umbariba";
-            perfiles.get(i).correo="Jhonycaro1998@gmail.com";   
-            perfiles.get(i).Contraseña="20191020055";
-            perfiles.get(i).fecha_nacimiento = new GregorianCalendar();
-            perfiles.get(i).rol=true;
+    public static void Guardar(String nombre,String correo,String contrasena,Calendar fecha_nacimiento,boolean rol){
+        ArrayList<Perfil> perfiles1 = new ArrayList<Perfil>();
+        for (int i =0;i<tamano;i++){
+            perfiles1.add(new Perfil());
+            perfiles1.get(i).nombre=nombre;
+            perfiles1.get(i).correo=correo;   
+            perfiles1.get(i).Contrasena=contrasena;
+            perfiles1.get(i).fecha_nacimiento = fecha_nacimiento;
+            perfiles1.get(i).rol=rol;
         }
         
         String archivo = "Usuarios.txt";
         try{
             ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
-            ob.writeObject(perfiles);
+            ob.writeObject(perfiles1);
             ob.close();
         } catch(FileNotFoundException e){
             e.printStackTrace();
@@ -43,10 +55,10 @@ public class Controlador{
     
     public static void Recuperar(){
         String archivo = "Usuarios.txt";
-        ArrayList<Perfil> perfiles2 = new ArrayList<Perfil>();
+        perfiles = new ArrayList<Perfil>();
         try{
             ObjectInputStream is = new ObjectInputStream(new FileInputStream(archivo));
-            perfiles2 = (ArrayList<Perfil>) is.readObject(); 
+            perfiles = (ArrayList<Perfil>) is.readObject(); 
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }catch(IOException e){
@@ -54,25 +66,45 @@ public class Controlador{
         }catch (ClassNotFoundException e){
             e.printStackTrace();
         } 
-        System.out.println(perfiles2.get(0).fecha_nacimiento);
-        /*  for (int f =0;f < perfiles2.size();f++){
-            System.out.println(perfiles2.get(f).nombre);
-            System.out.println(perfiles2.get(f).apellido);    
-            System.out.println(perfiles2.get(f).correo);
-        }*/
-    }
-
-    public void IniciarSesion(){
-        //revisar q la base de datos (usuarios) no esté vacia, xq si lo está, la unica opcion sera registrarse
-        //llamar el entorno grafico
-        //contrastar this.nombre y this.contrasena en la base de datos
         
     }
+
+    public static void IniciarSesion(String correo, String contrasena){
+        int posicion = BuscarPorCorreo(correo);
+        if(perfiles.get(posicion).Contrasena.equals(contrasena)){
+            //PUEDE INGRESAR A LA CUENTA
+            System.out.println("INGRESASTE");
+        }else{
+            //NO PUEDE INGRESAR A LA CUENTA XQ NO EL CORREO NGRESADO NO SE ENCUENTRA 
+            //O LA CONTRASEÑA ES INCORRECTA
+            //INTENTARLO DE NUEVO
+            System.out.println("NO INGRESASTE");
+        }
+    }
     
-    public static void Registrarse(){}
+    //BUSCA LA POSOCION DEL PERFIL Q TENGA EL MISMO CORREO
+    public static int BuscarPorCorreo(String correo){
+        int result=0;
+        for (int i =0;i<tamano;i++){
+            if(perfiles.get(i).correo.equals(correo)){
+                result=i;
+            }
+        }
+        return result;
+    }
+    
+    //JHONY AQUÍ HAY UN PROBLEMA, ME SALE ERROR AL PONER EL ARRAYLIST DE PREFERENCIAS 
+    public static void Registrarse(String nombre,String correo,String contrasena,Calendar fecha_nacimiento/*,ArrayList<boolean> preferencias*/){
+        tamano++;
+        Guardar(nombre,correo,contrasena,fecha_nacimiento,false);
+    }
+    
     public static void EliminarCuenta(){}
+    
     public static void CambiarContrasenas(){}
+    
     public static void VerInfoPersonal(){}
+    
     public static void RecuperarContrasena(){}
 }
 
