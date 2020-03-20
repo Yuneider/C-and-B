@@ -1,9 +1,5 @@
 package Logica;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -27,7 +23,7 @@ public class  Perfil implements Serializable{
         this.rol = rol;
     }
   
-    // Consytructor por defecto
+    // Constructor por defecto
     public Perfil() {
         this.nombre = "";
         this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,1);// day=1 , mes=0 , año=1 es lo q se crea por defecto

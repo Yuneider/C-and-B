@@ -1,16 +1,14 @@
 package Logica;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.lang.model.util.Elements;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
     
 public class Admi extends Perfil{
     
@@ -32,52 +30,81 @@ public class Admi extends Perfil{
         this.rol = true;
     }
 
-//    private ArrayList<Document> ScrapeandoAndo(){
-//    
-//    }
-//
-//    private void EnlistarElementos(ArrayList<Document> docCelulares, ArrayList<Document> docVehiculos, ArrayList<Document> docDeportes,ArrayList<Document> docVideojuegos,ArrayList<Document> docComputacion, ArrayList<Document> docOficina) throws IOException{
-//        Elements searchCelulares = docCelulares.getElementsByClass("rowItem item highlighted item--stack new has-variations");
-//        for(Element element: searchCelulares){
-//            Elements titulosCelulares = element.getElementsByClass("main-title");
-//            Elements preciosCelulares = element.getElementsByClass("price__fraction");
-//        }
-//    }
-//    public void Extraer() throws IOException{
-//        
-////Extraer datos Smarphones
-//    Document docCelulares = Jsoup.connect("https://celulares.mercadolibre.com.co/").get();
-//        
-//    Document docVehiculos = Jsoup.connect("https://vehiculos.mercadolibre.com.co/").get();    
-//    Elements searchVehiculos = docVehiculos.getElementsByClass("rowItem item highlighted item--grid new ");
-//    for(Element element: searchVehiculos) {
-//	Elements titulosVehiculos = element.getElementsByClass("item__title list-view-item-title ");
-//	Elements preciosVehiculos = element.getElementsByClass("item__price");
-//    }
-//    Document docDeportes = Jsoup.connect("https://deportes.mercadolibre.com.co/").get();    
-//    Elements searchDeportes = docDeportes.getElementsByClass("results-item highlighted article stack ");
-//    for(Element element: searchDeportes) {
-//	Elements titulosDeportes = element.getElementsByClass("item__title list-view-item-title");
-//	Elements preciosDeportes = element.getElementsByClass("price__fraction");
-//    }
-//    Document docVideojuegos = Jsoup.connect("https://videojuegos.mercadolibre.com.co/").get();    
-//    Elements searchVideojuegos = docVideojuegos.getElementsByClass("results-item highlighted article stack ");
-//    for(Element element: searchVideojuegos) {
-//	Elements titulosVideojuegos = element.getElementsByClass("main-title");
-//	Elements preciosVideojuegos = element.getElementsByClass("price__fraction");
-//    }
-//    Document docComputacion = Jsoup.connect("https://computacion.mercadolibre.com.co/").get();    
-//    Elements searchComputacion = docComputacion.getElementsByClass("results-item highlighted article stack ");
-//    for(Element element: searchComputacion) {
-//	Elements titulosComputacion = element.getElementsByClass("main-title");
-//	Elements preciosComputacion = element.getElementsByClass("price__fraction");
-//    }
-//    Document docOficina = Jsoup.connect("https://listado.mercadolibre.com.co/industrias-y-oficinas/equipamiento/").get();    
-//    Elements searchOficina = docOficina.getElementsByClass("results-item highlighted article stack ");
-//    for(Element element: searchOficina) {
-//	Elements titulosOficina = element.getElementsByClass("main-title");
-//	Elements preciosOficina = element.getElementsByClass("price__fraction");
-//    }
-//    
-//}
+    public ArrayList<Elements> ExtraerCategorias() throws IOException{
+        //Extraer datos Smarphones
+        Document docCelulares = Jsoup.connect("https://celulares.mercadolibre.com.co/").get();
+        Elements searchCelulares = docCelulares.getElementsByClass("rowItem item highlighted item--stack new has-variations");
+        Elements titulosCelulares = new Elements();
+        Elements preciosCelulares = new Elements();
+        for(Element element: searchCelulares){
+            titulosCelulares = element.getElementsByClass("main-title");
+            preciosCelulares = element.getElementsByClass("price__fraction");
+        }
+        //Extraer datos vehiculos
+        Document docVehiculos = Jsoup.connect("https://vehiculos.mercadolibre.com.co/").get();    
+        Elements searchVehiculos = docVehiculos.getElementsByClass("rowItem item highlighted item--grid new ");
+        Elements titulosVehiculos = new Elements();
+        Elements preciosVehiculos = new Elements();
+        for(Element element: searchVehiculos) {
+            titulosVehiculos = element.getElementsByClass("item__title list-view-item-title ");
+            preciosVehiculos = element.getElementsByClass("item__price");
+        }
+        //Extraer datos deportes
+        Document docDeportes = Jsoup.connect("https://deportes.mercadolibre.com.co/").get();    
+        Elements searchDeportes = docDeportes.getElementsByClass("results-item highlighted article stack ");
+        Elements titulosDeportes = new Elements();
+        Elements preciosDeportes = new Elements();
+        for(Element element: searchDeportes) {
+            titulosDeportes = element.getElementsByClass("item__title list-view-item-title");
+            preciosDeportes = element.getElementsByClass("price__fraction");
+        }
+        //Extraer datos videojuegos
+        Document docVideojuegos = Jsoup.connect("https://videojuegos.mercadolibre.com.co/").get();    
+        Elements searchVideojuegos = docVideojuegos.getElementsByClass("results-item highlighted article stack ");
+        Elements titulosVideojuegos = new Elements();
+        Elements preciosVideojuegos = new Elements();
+        for(Element element: searchVideojuegos) {
+            titulosVideojuegos = element.getElementsByClass("main-title");
+            preciosVideojuegos = element.getElementsByClass("price__fraction");
+        }
+        //Extraer datos computacion
+        Document docComputacion = Jsoup.connect("https://computacion.mercadolibre.com.co/").get();    
+        Elements searchComputacion = docComputacion.getElementsByClass("results-item highlighted article stack ");
+        Elements titulosComputacion = new Elements();
+        Elements preciosComputacion = new Elements();
+        for(Element element: searchComputacion) {
+            titulosComputacion = element.getElementsByClass("main-title");
+            preciosComputacion = element.getElementsByClass("price__fraction");
+        }
+        //Extraer datos oficina
+        Document docOficina = Jsoup.connect("https://listado.mercadolibre.com.co/industrias-y-oficinas/equipamiento/").get();    
+        Elements searchOficina = docOficina.getElementsByClass("results-item highlighted article stack ");
+        Elements titulosOficina = new Elements();
+        Elements preciosOficina = new Elements();
+        for(Element element: searchOficina) {
+            titulosOficina = element.getElementsByClass("main-title");
+            preciosOficina = element.getElementsByClass("price__fraction");
+        }
+        ArrayList<Elements> Lista = new ArrayList<Elements>();
+        Lista.add(0,titulosCelulares);
+        Lista.add(1,preciosCelulares);
+        Lista.add(2,titulosVehiculos);
+        Lista.add(3,preciosVehiculos);
+        Lista.add(4,titulosDeportes);
+        Lista.add(5,preciosDeportes);
+        Lista.add(6,titulosVideojuegos);
+        Lista.add(7,preciosVideojuegos);
+        Lista.add(8,titulosComputacion);
+        Lista.add(9,preciosComputacion);
+        Lista.add(10,titulosOficina);
+        Lista.add(11,preciosOficina);
+        return Lista;
+    }
+    
+    
+    
+    
+    
+    
+    
 }
