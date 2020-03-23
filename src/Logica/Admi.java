@@ -3,7 +3,6 @@ package Logica;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,22 +10,14 @@ import org.jsoup.select.Elements;
 
     
 public class Admi extends Perfil{
-    
-    //Constructor por defecto
-    public Admi(){
-        this.nombre = "";
-        this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,1);
-        this.correo = "";
-        this.Contrasena = "";
-        this.rol = true;
-    }
-    
     //Constructor parametrico
-    public Admi(String nombre, Calendar fecha_nacimiento, String correo, String Contrasena) {
-        this.nombre = nombre;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.correo = correo;
-        this.Contrasena = Contrasena;
+    public Admi() {
+        this.nombre = "Jhony Alejandro Caro Umbariba";
+        Calendar date = Calendar.getInstance();
+        date.set(1998, 0,28);
+        this.fecha_nacimiento = date;
+        this.correo = "Jhonycaro1998@gmail.com";
+        this.Contrasena = "20191020055";
         this.rol = true;
     }
 
@@ -100,11 +91,6 @@ public class Admi extends Perfil{
         Lista.add(11,preciosOficina);
         return Lista;
     }
-    
-    
-    
-    
-    
     
     
 }

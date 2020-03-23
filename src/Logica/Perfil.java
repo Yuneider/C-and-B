@@ -14,6 +14,7 @@ public class  Perfil implements Serializable{
     public String Contrasena;
     public boolean rol; // True->Admi // False->Usuario
     
+    
     // Constructor parametrico
     public Perfil(String nombre, Calendar fecha_nacimiento, String correo, String Contrasena, boolean rol) {
         this.nombre = nombre;
@@ -26,7 +27,7 @@ public class  Perfil implements Serializable{
     // Constructor por defecto
     public Perfil() {
         this.nombre = "";
-        this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,1);// day=1 , mes=0 , año=1 es lo q se crea por defecto
+        this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,2000);
         this.correo = "";
         this.Contrasena = "";
         this.rol = false;

@@ -1,6 +1,6 @@
 package Logica;
 
-import Grafica.IniciarSesion;
+import Grafica.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,29 +25,19 @@ public class BaseDeDatos {
         
     //ARREGLO DE PERFILES RECUPERADOS
     private static ArrayList<Perfil> perfiles;
-    private static int tamano=1;
     
     public BaseDeDatos(){
-        //Guardar("Yuneider","yune@holi.com","123",new GregorianCalendar(22,Calendar.OCTOBER,2001),true);
         Recuperar();
+        System.out.println(perfiles.get(0).correo);
+        System.out.println(perfiles.get(0).Contrasena);
         IniciarSesion();
     }
     
-    public static void Guardar(String nombre,String correo,String contrasena,Calendar fecha_nacimiento,boolean rol){
-        ArrayList<Perfil> perfiles1 = new ArrayList<Perfil>();
-        for (int i =0;i<tamano;i++){
-            perfiles1.add(new Perfil());
-            perfiles1.get(i).nombre=nombre;
-            perfiles1.get(i).correo=correo;   
-            perfiles1.get(i).Contrasena=contrasena;
-            perfiles1.get(i).fecha_nacimiento = fecha_nacimiento;
-            perfiles1.get(i).rol=rol;
-        }
-        
+    public static void Guardar(){
         String archivo = "Usuarios.txt";
         try{
             ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
-            ob.writeObject(perfiles1);
+            ob.writeObject(perfiles);
             ob.close();
         } catch(FileNotFoundException e){
             e.printStackTrace();
@@ -71,22 +61,34 @@ public class BaseDeDatos {
         } 
         
     }
-
+    
     public static void IniciarSesion(){
-        IniciarSesion IS = new IniciarSesion();
-        int posicion = BuscarPorCorreo(IS.usuario);
-        if(perfiles.get(posicion).Contrasena.equals(IS.contrasena)){
-             System.out.println("INGRESASTE");
-        }else{
-            System.out.println("NO INGRESASTE");
-        }
-    }
+        boolean ingreso=false;
+        do{
+            int posicion=-1;
+            IniciarSesion IS = new IniciarSesion();
+            do{
+                posicion = BuscarPorCorreo(IS.usuario);
+            }while(IS.usuario==null || IS.contrasena==null);
+            if (posicion!=-1){
+                if(perfiles.get(posicion).Contrasena.equals(IS.contrasena)){
+                    VerInfoPersonal vip = new VerInfoPersonal();
+                    ingreso=true;
+                }else{
+                    JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+            }
+        }while(ingreso==false);
+    }    
     
     //BUSCA LA POSOCION DEL PERFIL Q TENGA EL MISMO CORREO
     public static int BuscarPorCorreo(String correo){
-        int result=0;
-        for (int i =0;i<tamano;i++){
-            if(perfiles.get(i).nombre.equals(correo)){
+        int result=-1;
+        for (int i =0;i<perfiles.size();i++){
+            if(perfiles.get(i).correo.equals(correo)){
                 result=i;
             }
         }
@@ -94,13 +96,11 @@ public class BaseDeDatos {
     }
     
     //JHONY AQUÍ HAY UN PROBLEMA, ME SALE ERROR AL PONER EL ARRAYLIST DE PREFERENCIAS 
-    public static void Registrarse(String nombre,String correo,String contrasena,Calendar fecha_nacimiento/*,ArrayList<boolean> preferencias*/){
-        tamano++;
-        Guardar(nombre,correo,contrasena,fecha_nacimiento,false);
-    }
+//    public static void Registrarse(String nombre,String correo,String contrasena,Calendar fecha_nacimiento/*,ArrayList<boolean> preferencias*/){
+//        Guardar(nombre,correo,contrasena,fecha_nacimiento,false);
+//    }
     
     public static void EliminarCuenta(String correo){
-        tamano--;
         int posicion = BuscarPorCorreo(correo);
         perfiles.remove(posicion);
     }

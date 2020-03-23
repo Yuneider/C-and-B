@@ -109,6 +109,7 @@ public String contrasena;
             public void actionPerformed(ActionEvent ae) {
                 usuario=jtf_usuario.getText();
                 contrasena=pwf.getText();
+                dispose();
             }
         };
         
@@ -116,10 +117,12 @@ public String contrasena;
         btn_registrar.addActionListener(registrarse);
         
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     ActionListener registrarse = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {    
+            Registrarse r = new Registrarse();
             dispose();
         }
     };
