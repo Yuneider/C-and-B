@@ -2,7 +2,6 @@
 package Grafica;
 
 // Autor Jhony Caro
-import Logica.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -22,9 +21,8 @@ public class Registrarse extends JFrame{
     
     private String nombre;
     private String correo;
-    private String contraseña1;
-    private String contraseña2;
-    private String contraseñaf;
+    private String contrasena_1;
+    private String contrasena_2;
     private Calendar fecha_nacimiento;
     private boolean rol=false;
     
@@ -45,7 +43,7 @@ public class Registrarse extends JFrame{
         //Logo
         JLabel lbl_logo = new JLabel();
         lbl_logo.setBounds(-20,-30,200,150);
-        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C&B/LOGO.png");
+        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C-and-B/LOGO.png");
         Icon icono = new ImageIcon(icon_logo.getImage().getScaledInstance(lbl_logo.getWidth(),lbl_logo.getHeight(), Image.SCALE_DEFAULT));
         lbl_logo.setIcon(icono);
         lbl_logo.repaint();
@@ -56,7 +54,7 @@ public class Registrarse extends JFrame{
         JLabel lbl_titulo3 = new JLabel();
         JLabel lbl_nombre = new JLabel();
         JLabel lbl_apellido = new JLabel();
-        JLabel lbl_contraseña = new JLabel();
+        JLabel lbl_contrasena = new JLabel();
         JLabel lbl_correo = new JLabel();
         JLabel lbl_confirmacion1 = new JLabel();
         JLabel lbl_confirmacion2 = new JLabel();
@@ -77,7 +75,7 @@ public class Registrarse extends JFrame{
         lbl_nombre.setText("Nombres:");
         lbl_apellido.setText("Apellidos: ");
         lbl_correo.setText("Correo: ");
-        lbl_contraseña.setText("Contraseña: ");
+        lbl_contrasena.setText("Contraseña: ");
         lbl_confirmacion1.setText("Confirmacion");
         lbl_confirmacion2.setText("Contraseña: ");
         lbl_titulo1.setText("COMPARE");
@@ -89,7 +87,9 @@ public class Registrarse extends JFrame{
         //Edicion de listas desplegables                
         jcb_dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"}));
         jcb_mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-        jcb_anno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010"}));
+        for(int f=2020;f>=1920;f--) {
+            jcb_anno.addItem(String.valueOf(f));
+        }
         
         //Fuente de los elementos
         btn_guardar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
@@ -105,7 +105,7 @@ public class Registrarse extends JFrame{
         lbl_correo.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_confirmacion1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_confirmacion2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
-        lbl_contraseña.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        lbl_contrasena.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_fecha1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_fecha2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         pwf1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
@@ -121,7 +121,7 @@ public class Registrarse extends JFrame{
         lbl_nombre.setBounds(20, 100, 150, 30);
         lbl_apellido.setBounds(20, 150, 150, 30);
         lbl_correo.setBounds(20, 200, 150, 30);
-        lbl_contraseña.setBounds(20, 250, 150, 30);
+        lbl_contrasena.setBounds(20, 250, 150, 30);
         lbl_confirmacion1.setBounds(20, 300, 150, 30);
         lbl_confirmacion2.setBounds(50, 320, 150, 30);
         lbl_fecha1.setBounds(20, 370, 150, 30);
@@ -144,7 +144,7 @@ public class Registrarse extends JFrame{
         lbl_nombre.setForeground(Color.white);
         lbl_apellido.setForeground(Color.white);
         lbl_correo.setForeground(Color.white);
-        lbl_contraseña.setForeground(Color.white);
+        lbl_contrasena.setForeground(Color.white);
         lbl_confirmacion1.setForeground(Color.white);
         lbl_confirmacion2.setForeground(Color.white);
         lbl_fecha1.setForeground(Color.white);
@@ -170,7 +170,7 @@ public class Registrarse extends JFrame{
         this.add(lbl_nombre);
         this.add(lbl_apellido);
         this.add(lbl_correo);
-        this.add(lbl_contraseña);
+        this.add(lbl_contrasena);
         this.add(lbl_confirmacion1);
         this.add(lbl_confirmacion2);
         this.add(lbl_fecha1);
@@ -186,10 +186,20 @@ public class Registrarse extends JFrame{
         this.add(jcb_dia);
         this.add(jcb_mes);
         this.add(jcb_anno);
-    
+        
         ActionListener guardar = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {    
-            
+                nombre=jtf_nombre.getText()+" "+jtf_apellido.getText();
+                correo=jtf_correo.getText();
+                contrasena_1=pwf1.getText();
+                contrasena_2=pwf2.getText();
+                
+                String d=(String)jcb_dia.getSelectedItem();
+                String m=(String)jcb_mes.getSelectedItem();
+                String a=(String)jcb_anno.getSelectedItem();
+                int dia=Integer.parseInt(d);
+                int anno=Integer.parseInt(a);
+                dispose();
             }
         };
         

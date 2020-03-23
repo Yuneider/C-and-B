@@ -28,7 +28,7 @@ public class VerInfoPersonal extends JFrame{
         //Logo
         JLabel lbl_logo = new JLabel();
         lbl_logo.setBounds(-20,-30,200,150);
-        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C&B/LOGO.png");
+        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C-and-B/LOGO.png");
         Icon icono = new ImageIcon(icon_logo.getImage().getScaledInstance(lbl_logo.getWidth(),lbl_logo.getHeight(), Image.SCALE_DEFAULT));
         lbl_logo.setIcon(icono);
         lbl_logo.repaint();

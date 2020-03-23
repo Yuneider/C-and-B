@@ -17,6 +17,7 @@ public class IniciarSesion extends JFrame{
     
 public String usuario;
 public String contrasena;
+public int estado=0;
 
     public IniciarSesion(){
         //Creacion de colores
@@ -35,7 +36,7 @@ public String contrasena;
         //Logo
         JLabel lbl_logo = new JLabel();
         lbl_logo.setBounds(-20,-30,200,150);
-        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C&B/LOGO.png");
+        ImageIcon icon_logo = new ImageIcon("C:/Users/USUARIO/Documents/NetBeansProjects/C-and-B/LOGO.png");
         Icon icono = new ImageIcon(icon_logo.getImage().getScaledInstance(lbl_logo.getWidth(),lbl_logo.getHeight(), Image.SCALE_DEFAULT));
         lbl_logo.setIcon(icono);
         lbl_logo.repaint();
@@ -76,8 +77,7 @@ public String contrasena;
         lbl_1.setBounds(50, 100, 150, 30);
         lbl_2.setBounds(50, 150, 150, 30);
         btn_login.setBounds(50, 200, 120, 30);
-        btn_registrar.setBounds(270, 200, 130, 30);
-        
+        btn_registrar.setBounds(270, 200, 130, 30);        
         jtf_usuario.setBounds(150, 100, 240, 25);
         pwf.setBounds(150, 150, 150, 25);
         
@@ -109,6 +109,7 @@ public String contrasena;
             public void actionPerformed(ActionEvent ae) {
                 usuario=jtf_usuario.getText();
                 contrasena=pwf.getText();
+                estado=1;
                 dispose();
             }
         };
@@ -122,25 +123,9 @@ public String contrasena;
 
     ActionListener registrarse = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {    
-            Registrarse r = new Registrarse();
+            estado =2;
             dispose();
         }
     };
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contraseña) {
-        this.contrasena = contrasena;
-    }
 
 }

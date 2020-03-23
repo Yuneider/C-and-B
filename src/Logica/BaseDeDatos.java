@@ -26,10 +26,8 @@ public class BaseDeDatos {
     //ARREGLO DE PERFILES RECUPERADOS
     private static ArrayList<Perfil> perfiles;
     
-    public BaseDeDatos(){
+    public BaseDeDatos() throws InterruptedException{
         Recuperar();
-        System.out.println(perfiles.get(0).correo);
-        System.out.println(perfiles.get(0).Contrasena);
         IniciarSesion();
     }
     
@@ -62,26 +60,31 @@ public class BaseDeDatos {
         
     }
     
-    public static void IniciarSesion(){
-        boolean ingreso=false;
+    public static void IniciarSesion() throws InterruptedException{
+        IniciarSesion IS = new IniciarSesion();
+        int posicion;
         do{
-            int posicion=-1;
-            IniciarSesion IS = new IniciarSesion();
-            do{
-                posicion = BuscarPorCorreo(IS.usuario);
-            }while(IS.usuario==null || IS.contrasena==null);
+            Thread.sleep(100);
+        }while(IS.estado==0);
+        posicion = BuscarPorCorreo(IS.usuario);
+        if(IS.estado==1){    
             if (posicion!=-1){
-                if(perfiles.get(posicion).Contrasena.equals(IS.contrasena)){
-                    VerInfoPersonal vip = new VerInfoPersonal();
-                    ingreso=true;
-                }else{
+                if (IS.contrasena.equals(perfiles.get(posicion).Contrasena)){
+                    VerInfoPersonal VIP = new VerInfoPersonal();
+                }
+                else{
                     JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+                    IniciarSesion();
                 }
             }
             else{
                 JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+                IniciarSesion();
             }
-        }while(ingreso==false);
+        }
+        else{
+            Registrarse();
+        }
     }    
     
     //BUSCA LA POSOCION DEL PERFIL Q TENGA EL MISMO CORREO
@@ -95,10 +98,10 @@ public class BaseDeDatos {
         return result;
     }
     
-    //JHONY AQUÍ HAY UN PROBLEMA, ME SALE ERROR AL PONER EL ARRAYLIST DE PREFERENCIAS 
-//    public static void Registrarse(String nombre,String correo,String contrasena,Calendar fecha_nacimiento/*,ArrayList<boolean> preferencias*/){
-//        Guardar(nombre,correo,contrasena,fecha_nacimiento,false);
-//    }
+    public static void Registrarse(){
+        Registrarse r = new Registrarse();
+        //perfiles.add();
+    }
     
     public static void EliminarCuenta(String correo){
         int posicion = BuscarPorCorreo(correo);

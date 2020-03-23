@@ -4,9 +4,8 @@ package Logica;
 
 public class Controlador{
 
-    public static void main(String[] args){
-        BaseDeDatos b = new BaseDeDatos();
-        
+    public static void main(String[] args) throws InterruptedException{
+        BaseDeDatos b = new BaseDeDatos();   
     }
     
     /*Calendar fecha = new GregorianCalendar(2001,Calendar.OCTOBER,22);
