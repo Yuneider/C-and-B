@@ -25,7 +25,7 @@ public class Registrarse extends JFrame{
     public String contrasena_1;
     public String contrasena_2;
     public Calendar fecha_nacimiento;
-    public boolean rol=false;
+    public boolean rol=true;
     public int estado=0;  
     
     public Registrarse(){

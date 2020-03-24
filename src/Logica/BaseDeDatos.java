@@ -25,13 +25,15 @@ public class BaseDeDatos {
         
     //ARREGLO DE PERFILES RECUPERADOS
     private static ArrayList<Perfil> perfiles;
+    private static int posicion_usuario;//para poder obtener los valores a la hora de por ejemplo
+                                        //de cambiar la contraseña de una cuenta en cuestion
     
     public BaseDeDatos() throws InterruptedException{
         Recuperar();
         for(int i=0;i<perfiles.size();i++){
-            System.out.println(perfiles.get(0).correo);
-            System.out.println(perfiles.get(0).Contrasena);
-            System.out.println(perfiles.get(0).rol+"\n");
+            System.out.println(perfiles.get(i).correo);
+            System.out.println(perfiles.get(i).Contrasena);
+            System.out.println(perfiles.get(i).rol+"\n");
         }
         IniciarSesion();
     }
@@ -75,6 +77,7 @@ public class BaseDeDatos {
         if(IS.estado==1){    
             if (posicion!=-1){
                 if (IS.contrasena.equals(perfiles.get(posicion).Contrasena)){
+                    posicion_usuario = posicion;
                     VerInfoPersonal VIP = new VerInfoPersonal();
                 }
                 else{
@@ -110,14 +113,13 @@ public class BaseDeDatos {
         }while(r.estado==0);
         if(r.estado==1){
             if(r.contrasena_1.equals(r.contrasena_2)){
+                int pos = perfiles.size();
                 perfiles.add(new Perfil());
-                for(int i=0;i<perfiles.size();i++){
-                    perfiles.get(i).nombre=r.nombre;
-                    perfiles.get(i).correo=r.correo;   
-                    perfiles.get(i).Contrasena=r.contrasena_1;
-                    perfiles.get(i).fecha_nacimiento =r.fecha_nacimiento;
-                    perfiles.get(i).rol=r.rol;
-                }
+                perfiles.get(pos).nombre=r.nombre;
+                perfiles.get(pos).correo=r.correo;   
+                perfiles.get(pos).Contrasena=r.contrasena_1;
+                perfiles.get(pos).fecha_nacimiento =r.fecha_nacimiento;
+                perfiles.get(pos).rol=r.rol;
                 Guardar();
                 IniciarSesion();
             }else{
@@ -137,25 +139,8 @@ public class BaseDeDatos {
         Guardar();
     }
     
-    //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
     public static void CambiarContrasena(){
-        //llamar a la interfaz para q el usuario meta el correo
-        String correo="";//retornado por la interfaz
-        int posicion = BuscarPorCorreo(correo);
-        String codigo = GenerarNumeroAleatorio();
-        String mensaje ="";
-        String asunto="Codigo de veridifcacion";
-        EnviarCorreo(correo,mensaje,asunto);
-        //llamar interfaz para q meta el codigo
-        String cod = "";//retornado por la intefaz
-        if(cod.equals(codigo)){
-            //llamar interfaz para meter nueva contraseña
-            String nuevaContrasena ="";//retornado por la interfaz
-            perfiles.get(posicion).Contrasena=nuevaContrasena;
-        }else{
-            //intentelo de nuevo
-        }
-            
+           
         
     }
     
@@ -199,6 +184,25 @@ public class BaseDeDatos {
     public static void VerInfoPersonal(){
     }
     
+     //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
     public static void RecuperarContrasena(){
+        RecuperarContraseña rc = new RecuperarContraseña();
+        String correo=rc.correo;
+        int posicion = BuscarPorCorreo(correo);
+        String codigo = GenerarNumeroAleatorio();
+        String mensaje ="";//FALTA LLENAR MENSAJE
+        String asunto="Codigo de veridifcacion";
+        EnviarCorreo(correo,mensaje,asunto);
+        RecuperarContrasena_2 rc_2 = new RecuperarContrasena_2();
+        String cod =rc_2.codigo_verificacion;
+        if(cod.equals(codigo)){
+            CambiarContrasena();
+            //ESTOS 2 VAN EN CAMBIARCONTRASENA
+            //String nuevaContrasena ="";//retornado por la interfaz
+            //perfiles.get(posicion).Contrasena=nuevaContrasena;
+        }else{
+            RecuperarContrasena();
+        }
+         
     }
 }
