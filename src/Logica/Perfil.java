@@ -11,26 +11,31 @@ public class  Perfil implements Serializable{
     public String nombre;
     public Calendar fecha_nacimiento;
     public String correo;
-    public String Contrasena;
+    public String contrasena;
     public boolean rol; // True->Admi // False->Usuario
+    public boolean[] preferencias;
     
-    
-    // Constructor parametrico
     public Perfil(String nombre, Calendar fecha_nacimiento, String correo, String Contrasena, boolean rol) {
         this.nombre = nombre;
         this.fecha_nacimiento = fecha_nacimiento;
         this.correo = correo;
-        this.Contrasena = Contrasena;
+        this.contrasena = Contrasena;
         this.rol = rol;
+        preferencias = new boolean[6];
+        for (int i=0;i<preferencias.length;i++){
+            this.preferencias[i]=false;
+        }
     }
-  
-    // Constructor por defecto
+    
     public Perfil() {
         this.nombre = "";
         this.fecha_nacimiento = new GregorianCalendar(1,Calendar.JANUARY,2000);
         this.correo = "";
-        this.Contrasena = "";
+        this.contrasena = "";
         this.rol = false;
+        
     }
+    
+    
     
 }

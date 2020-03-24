@@ -1,6 +1,6 @@
 package Logica;
 
-import Grafica.*;
+import INTERFAZ.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,18 +21,11 @@ import javax.swing.JOptionPane;
 
 public class BaseDeDatos {
         
-    //ARREGLO DE PERFILES RECUPERADOS
     private static ArrayList<Perfil> perfiles;
-    private static int posicion_usuario;//para poder obtener los valores a la hora de por ejemplo
-                                        //de cambiar la contraseña de una cuenta en cuestion
+    private static int pos_u;
     
     public BaseDeDatos() throws InterruptedException{
         Recuperar();
-        for(int i=0;i<perfiles.size();i++){
-            System.out.println(perfiles.get(i).correo);
-            System.out.println(perfiles.get(i).Contrasena);
-            System.out.println(perfiles.get(i).rol+"\n");
-        }
         IniciarSesion();
     }
     
@@ -68,17 +59,22 @@ public class BaseDeDatos {
     }
     
     public static void IniciarSesion() throws InterruptedException{
-        IniciarSesion IS = new IniciarSesion();
+        GUI_inicio IS = new GUI_inicio();
         int posicion;
         do{
             Thread.sleep(100);
         }while(IS.estado==0);
-        posicion = BuscarPorCorreo(IS.usuario);
+        posicion = BuscarPorCorreo(IS.correo);
         if(IS.estado==1){    
             if (posicion!=-1){
-                if (IS.contrasena.equals(perfiles.get(posicion).Contrasena)){
-                    posicion_usuario = posicion;
-                    VerInfoPersonal VIP = new VerInfoPersonal();
+                if (IS.contrasena.equals(perfiles.get(posicion).contrasena)){
+                    pos_u= posicion;
+                    if (perfiles.get(posicion).rol==true){
+                        InformacionA(perfiles.get(pos_u));
+                    }
+                    else{   
+                        InformacionC(perfiles.get(pos_u));
+                    }
                 }
                 else{
                     JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
@@ -107,30 +103,38 @@ public class BaseDeDatos {
     }
     
     public static void Registrarse() throws InterruptedException{
-        Registrarse r = new Registrarse();
+        GUI_registrar r = new GUI_registrar();
+        int posicion;
         do{
             Thread.sleep(100);
         }while(r.estado==0);
+        posicion = BuscarPorCorreo(r.correo);
         if(r.estado==1){
-            if(r.contrasena_1.equals(r.contrasena_2)){
-                int pos = perfiles.size();
-                perfiles.add(new Perfil());
-                perfiles.get(pos).nombre=r.nombre;
-                perfiles.get(pos).correo=r.correo;   
-                perfiles.get(pos).Contrasena=r.contrasena_1;
-                perfiles.get(pos).fecha_nacimiento =r.fecha_nacimiento;
-                perfiles.get(pos).rol=r.rol;
-                Guardar();
-                IniciarSesion();
-            }else{
-                JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                Registrarse();
+            if (posicion==-1){
+                if(r.contrasena_1.equals(r.contrasena_2)){
+                    perfiles.add(new Usuario(r.nombre,r.fecha_nacimiento,r.correo,r.contrasena_1));
+                    Guardar();
+                    IniciarSesion();
+                }else{
+                    JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                    Registrarse();
+                }   
             }
-            
-        }
-        if(r.estado==2){
+            else{
+                JOptionPane.showMessageDialog(null , "El correo ingresado ya se encuentra registrado" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                IniciarSesion();
+            }
+        }else{
             IniciarSesion();
         }
+    }
+    
+    public static void InformacionC(Perfil p){
+        GUI_cliente c = new GUI_cliente(perfiles.get(pos_u).nombre,perfiles.get(pos_u).correo,perfiles.get(pos_u).fecha_nacimiento,perfiles.get(pos_u).preferencias);
+    }
+    
+    public static void InformacionA(Perfil p){
+        GUI_administrador a = new GUI_administrador();
     }
     
     public static void EliminarCuenta(String correo){
@@ -181,11 +185,8 @@ public class BaseDeDatos {
         }
     }
     
-    public static void VerInfoPersonal(){
-    }
-    
      //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
-    public static void RecuperarContrasena(){
+ /*   public static void RecuperarContrasena(){
         RecuperarContraseña rc = new RecuperarContraseña();
         String correo=rc.correo;
         int posicion = BuscarPorCorreo(correo);
@@ -204,5 +205,5 @@ public class BaseDeDatos {
             RecuperarContrasena();
         }
          
-    }
+    }*/
 }

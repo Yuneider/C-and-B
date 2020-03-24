@@ -1,4 +1,4 @@
-package Grafica;
+package INTERFAZ;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,13 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class IniciarSesion extends JFrame{
+public class GUI_inicio extends JFrame{
     
-public String usuario;
+public String correo;
 public String contrasena;
 public int estado=0;
 
-    public IniciarSesion(){
+    public GUI_inicio(){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
@@ -107,7 +107,7 @@ public int estado=0;
         //Boton de ingreso
         ActionListener ingresar = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                usuario=jtf_usuario.getText();
+                correo=jtf_usuario.getText();
                 contrasena=pwf.getText();
                 estado=1;
                 dispose();

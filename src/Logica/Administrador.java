@@ -9,16 +9,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
     
-public class Admi extends Perfil{
+public class Administrador extends Perfil{
     //Constructor parametrico
-    public Admi() {
-        this.nombre = "Jhony Alejandro Caro Umbariba";
-        Calendar date = Calendar.getInstance();
-        date.set(1998, 0,28);
-        this.fecha_nacimiento = date;
-        this.correo = "Jhonycaro1998@gmail.com";
-        this.Contrasena = "20191020055";
+    public Administrador(String nombre,Calendar fecha_nacimiento,String correo, String contrasena) {
+        this.nombre = nombre;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.correo = correo;
+        this.contrasena = contrasena;
         this.rol = true;
+        preferencias = new boolean[6];
+        for (int i=0;i<preferencias.length;i++){
+            this.preferencias[i]=false;
+        }
     }
 
     public ArrayList<Elements> ExtraerCategorias() throws IOException{

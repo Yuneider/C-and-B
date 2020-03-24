@@ -1,17 +1,16 @@
-package Grafica;
+package INTERFAZ;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class VerInfoPersonal extends JFrame{
+public class GUI_administrador extends JFrame{
 
-    public VerInfoPersonal(){
+    public GUI_administrador(){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
@@ -19,7 +18,7 @@ public class VerInfoPersonal extends JFrame{
         Color color_azul=new Color(82,113,255);
         
         //Propiedades de la ventana
-        this.setTitle("Perfil");
+        this.setTitle("Perfil Administrador");
         this.setLayout(null);
         this.setSize(700,600);
         this.setLocationRelativeTo(null);
@@ -53,8 +52,5 @@ public class VerInfoPersonal extends JFrame{
         
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-
-    
+    }    
 }

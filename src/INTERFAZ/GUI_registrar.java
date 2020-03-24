@@ -1,5 +1,5 @@
 
-package Grafica;
+package INTERFAZ;
 
 // Autor Jhony Caro
 import java.awt.Color;
@@ -18,17 +18,16 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Registrarse extends JFrame{
+public class GUI_registrar extends JFrame{
     
     public String nombre;
     public String correo;
     public String contrasena_1;
     public String contrasena_2;
     public Calendar fecha_nacimiento;
-    public boolean rol=true;
     public int estado=0;  
     
-    public Registrarse(){
+    public GUI_registrar(){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
