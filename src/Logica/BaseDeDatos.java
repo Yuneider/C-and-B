@@ -28,6 +28,11 @@ public class BaseDeDatos {
     
     public BaseDeDatos() throws InterruptedException{
         Recuperar();
+        for(int i=0;i<perfiles.size();i++){
+            System.out.println(perfiles.get(0).correo);
+            System.out.println(perfiles.get(0).Contrasena);
+            System.out.println(perfiles.get(0).rol+"\n");
+        }
         IniciarSesion();
     }
     
@@ -98,14 +103,38 @@ public class BaseDeDatos {
         return result;
     }
     
-    public static void Registrarse(){
+    public static void Registrarse() throws InterruptedException{
         Registrarse r = new Registrarse();
-        //perfiles.add();
+        do{
+            Thread.sleep(100);
+        }while(r.estado==0);
+        if(r.estado==1){
+            if(r.contrasena_1.equals(r.contrasena_2)){
+                perfiles.add(new Perfil());
+                for(int i=0;i<perfiles.size();i++){
+                    perfiles.get(i).nombre=r.nombre;
+                    perfiles.get(i).correo=r.correo;   
+                    perfiles.get(i).Contrasena=r.contrasena_1;
+                    perfiles.get(i).fecha_nacimiento =r.fecha_nacimiento;
+                    perfiles.get(i).rol=r.rol;
+                }
+                Guardar();
+                IniciarSesion();
+            }else{
+                JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                Registrarse();
+            }
+            
+        }
+        if(r.estado==2){
+            IniciarSesion();
+        }
     }
     
     public static void EliminarCuenta(String correo){
         int posicion = BuscarPorCorreo(correo);
         perfiles.remove(posicion);
+        Guardar();
     }
     
     //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 

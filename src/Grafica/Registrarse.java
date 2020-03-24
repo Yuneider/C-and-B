@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,12 +20,13 @@ import javax.swing.JTextField;
 
 public class Registrarse extends JFrame{
     
-    private String nombre;
-    private String correo;
-    private String contrasena_1;
-    private String contrasena_2;
-    private Calendar fecha_nacimiento;
-    private boolean rol=false;
+    public String nombre;
+    public String correo;
+    public String contrasena_1;
+    public String contrasena_2;
+    public Calendar fecha_nacimiento;
+    public boolean rol=false;
+    public int estado=0;  
     
     public Registrarse(){
         //Creacion de colores
@@ -197,8 +199,9 @@ public class Registrarse extends JFrame{
                 String d=(String)jcb_dia.getSelectedItem();
                 String m=(String)jcb_mes.getSelectedItem();
                 String a=(String)jcb_anno.getSelectedItem();
-                int dia=Integer.parseInt(d);
-                int anno=Integer.parseInt(a);
+                OrganizarCalendar(d,m,a);
+                
+                estado=1;
                 dispose();
             }
         };
@@ -209,13 +212,52 @@ public class Registrarse extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
+    public void OrganizarCalendar(String d, String m, String a){
+        switch(m){
+            case "Enero":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JANUARY,Integer.parseInt(d));
+                break;
+            case "Febrero":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.FEBRUARY,Integer.parseInt(d));
+                break;
+            case "Marzo":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MARCH,Integer.parseInt(d));
+                break;
+            case "Abril":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.APRIL,Integer.parseInt(d));
+                break;
+            case "Mayo":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MAY,Integer.parseInt(d));
+                break;
+            case "Junio":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JUNE,Integer.parseInt(d));
+                break;    
+            case "Julio":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JULY,Integer.parseInt(d));
+                break;    
+            case "Agosto":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.AUGUST,Integer.parseInt(d));
+                break;
+            case "Septiembte":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.SEPTEMBER,Integer.parseInt(d));
+                break;
+            case "Octubre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.OCTOBER,Integer.parseInt(d));
+                break;
+            case "Noviembre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.NOVEMBER,Integer.parseInt(d));
+                break;
+            case "Diciembre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.DECEMBER,Integer.parseInt(d));
+                break;    
+        }
+    }
+    
     ActionListener cancelar = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {    
+            estado=2;
             dispose();
         }
     };
-    
-    
-    
     
 }
