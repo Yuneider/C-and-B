@@ -19,7 +19,7 @@ public String correo;
 public String contrasena;
 public int estado=0;
 
-    public GUI_inicio(){
+    public GUI_inicio(String c,String p){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
@@ -27,7 +27,7 @@ public int estado=0;
         Color color_azul=new Color(82,113,255);
         
         //Propiedades de la ventana
-        this.setTitle("Iniciar Sesion");
+        this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(500,300);
         this.setLocationRelativeTo(null);
@@ -42,22 +42,15 @@ public int estado=0;
         lbl_logo.repaint();
         
         //Crear elementos de la ventana
-        JLabel lbl_titulo1 = new JLabel();
-        JLabel lbl_titulo2 = new JLabel();
-        JLabel lbl_titulo3 = new JLabel();
+        JLabel lbl_titulo1 = new JLabel("COMPARE");
+        JLabel lbl_titulo2 = new JLabel("&");
+        JLabel lbl_titulo3 = new JLabel("BUY");
         JButton btn_login = new JButton("Ingresar");
         JButton btn_registrar = new JButton("Registrarme");
-        JPasswordField pwf = new JPasswordField();
-        JTextField jtf_usuario = new JTextField();
-        JLabel lbl_1 = new JLabel();
-        JLabel lbl_2 = new JLabel();
-        
-        //Edicion de textos
-        lbl_1.setText("Usuario:");
-        lbl_2.setText("Contraseña: ");
-        lbl_titulo1.setText("COMPARE");
-        lbl_titulo2.setText("&");
-        lbl_titulo3.setText("BUY");
+        JPasswordField pwf = new JPasswordField(p);
+        JTextField jtf_usuario = new JTextField(c);
+        JLabel lbl_1 = new JLabel("Usuario:");
+        JLabel lbl_2 = new JLabel("Contraseña: ");
         
         //Fuente de los elementos
         btn_registrar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));

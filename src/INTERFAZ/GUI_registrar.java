@@ -33,11 +33,12 @@ public class GUI_registrar extends JFrame{
         Color color_grisc=new Color(166,166,166);
         Color color_rojo=new Color(180,8,8);
         Color color_azul=new Color(82,113,255);
+        Color color_grism=new Color(60,63,65);
         
         //Propiedades de la ventana
-        this.setTitle("Registrarme");
+        this.setTitle("C&B-App");
         this.setLayout(null);
-        this.setSize(500,600);
+        this.setSize(550,600);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -50,17 +51,18 @@ public class GUI_registrar extends JFrame{
         lbl_logo.repaint();
         
         //Crear elementos de la ventana
-        JLabel lbl_titulo1 = new JLabel();
-        JLabel lbl_titulo2 = new JLabel();
-        JLabel lbl_titulo3 = new JLabel();
-        JLabel lbl_nombre = new JLabel();
-        JLabel lbl_apellido = new JLabel();
-        JLabel lbl_contrasena = new JLabel();
-        JLabel lbl_correo = new JLabel();
-        JLabel lbl_confirmacion1 = new JLabel();
-        JLabel lbl_confirmacion2 = new JLabel();
-        JLabel lbl_fecha1 = new JLabel();
-        JLabel lbl_fecha2 = new JLabel();
+        JLabel lbl_titulo1 = new JLabel("COMPARE");
+        JLabel lbl_titulo2 = new JLabel("&");
+        JLabel lbl_titulo3 = new JLabel("BUY");
+        JLabel lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicacion pensada para personas ocupadas, no hay necesidad de que busques en diversas paginas web algun producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
+        JLabel lbl_nombre = new JLabel("Nombres:");
+        JLabel lbl_apellido = new JLabel("Apellidos: ");
+        JLabel lbl_contrasena = new JLabel("Contraseña: ");
+        JLabel lbl_correo = new JLabel("Correo: ");
+        JLabel lbl_confirmacion1 = new JLabel("Confirmacion");
+        JLabel lbl_confirmacion2 = new JLabel("Contraseña: ");
+        JLabel lbl_fecha1 = new JLabel("Fecha de");
+        JLabel lbl_fecha2 = new JLabel("Nacimiento: ");
         JTextField jtf_nombre = new JTextField();
         JTextField jtf_apellido = new JTextField();
         JTextField jtf_correo = new JTextField();
@@ -71,19 +73,6 @@ public class GUI_registrar extends JFrame{
         JComboBox jcb_dia = new JComboBox<>();
         JComboBox jcb_mes = new JComboBox<>();
         JComboBox jcb_anno = new JComboBox<>();
-        
-        //Edicion de textos
-        lbl_nombre.setText("Nombres:");
-        lbl_apellido.setText("Apellidos: ");
-        lbl_correo.setText("Correo: ");
-        lbl_contrasena.setText("Contraseña: ");
-        lbl_confirmacion1.setText("Confirmacion");
-        lbl_confirmacion2.setText("Contraseña: ");
-        lbl_titulo1.setText("COMPARE");
-        lbl_titulo2.setText("&");
-        lbl_titulo3.setText("BUY");
-        lbl_fecha1.setText("Fecha de");
-        lbl_fecha2.setText("Nacimiento: ");
         
         //Edicion de listas desplegables                
         jcb_dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"}));
@@ -99,9 +88,9 @@ public class GUI_registrar extends JFrame{
         jtf_correo.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jtf_nombre.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_apellido.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
-        lbl_titulo1.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
-        lbl_titulo2.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
-        lbl_titulo3.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
+        lbl_titulo1.setFont(new Font("Berlin Sans FB",Font.PLAIN,22));
+        lbl_titulo2.setFont(new Font("Berlin Sans FB",Font.PLAIN,22));
+        lbl_titulo3.setFont(new Font("Berlin Sans FB",Font.PLAIN,22));
         lbl_nombre.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_correo.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_confirmacion1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
@@ -109,6 +98,7 @@ public class GUI_registrar extends JFrame{
         lbl_contrasena.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_fecha1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_fecha2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        lbl_mensaje.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         pwf1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         pwf2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jcb_dia.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
@@ -116,29 +106,31 @@ public class GUI_registrar extends JFrame{
         jcb_anno.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
-        lbl_titulo1.setBounds(180, 30, 120, 30);
-        lbl_titulo2.setBounds(290, 30, 20, 30);
-        lbl_titulo3.setBounds(310, 30, 50, 30);
-        lbl_nombre.setBounds(20, 100, 150, 30);
-        lbl_apellido.setBounds(20, 150, 150, 30);
-        lbl_correo.setBounds(20, 200, 150, 30);
-        lbl_contrasena.setBounds(20, 250, 150, 30);
-        lbl_confirmacion1.setBounds(20, 300, 150, 30);
-        lbl_confirmacion2.setBounds(50, 320, 150, 30);
-        lbl_fecha1.setBounds(20, 370, 150, 30);
-        lbl_fecha2.setBounds(50, 390, 150, 30);        
+        lbl_mensaje.setBounds(180, -30, 330, 200);
+        lbl_titulo1.setBounds(3, 80, 120, 30);
+        lbl_titulo2.setBounds(105, 80, 20, 30);
+        lbl_titulo3.setBounds(122, 80, 50, 30);
+        lbl_nombre.setBounds(20, 160, 150, 30);
+        lbl_apellido.setBounds(20, 210, 150, 30);
+        lbl_correo.setBounds(20, 260, 150, 30);
+        lbl_contrasena.setBounds(20, 310, 150, 30);
+        lbl_confirmacion1.setBounds(20, 360, 150, 30);
+        lbl_confirmacion2.setBounds(50, 380, 150, 30);
+        lbl_fecha1.setBounds(20, 430, 150, 30);
+        lbl_fecha2.setBounds(50, 450, 150, 30);        
         btn_guardar.setBounds(50, 500, 200, 30);
-        btn_cancelar.setBounds(270, 500, 130, 30);
-        jtf_nombre.setBounds(150, 100, 200, 25);
-        jtf_apellido.setBounds(150, 150, 200, 25);
-        jtf_correo.setBounds(150, 200, 250, 25);
-        pwf1.setBounds(150, 250, 200, 25);
-        pwf2.setBounds(150, 310, 200, 25);
-        jcb_dia.setBounds(150, 380, 50, 30);
-        jcb_mes.setBounds(210, 380, 120, 30);
-        jcb_anno.setBounds(340, 380, 80, 30);
+        btn_cancelar.setBounds(350, 500, 130, 30);
+        jtf_nombre.setBounds(150, 160, 250, 25);
+        jtf_apellido.setBounds(150, 210, 250, 25);
+        jtf_correo.setBounds(150, 260, 300, 25);
+        pwf1.setBounds(150, 310, 250, 25);
+        pwf2.setBounds(150, 370, 250, 25);
+        jcb_dia.setBounds(150, 440, 50, 30);
+        jcb_mes.setBounds(210, 440, 120, 30);
+        jcb_anno.setBounds(340, 440, 80, 30);
         
         //Colores de los elementos
+        lbl_mensaje.setForeground(color_grisc);
         lbl_titulo1.setForeground(color_azul);
         lbl_titulo2.setForeground(color_grisc);
         lbl_titulo3.setForeground(color_rojo);        
@@ -165,6 +157,7 @@ public class GUI_registrar extends JFrame{
         jcb_dia.setForeground(color_griso);
         
         //Agregar elementos a la ventana
+        this.add(lbl_mensaje);
         this.add(lbl_titulo1);
         this.add(lbl_titulo2);
         this.add(lbl_titulo3);

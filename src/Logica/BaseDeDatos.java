@@ -8,15 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 public class BaseDeDatos {
@@ -26,40 +17,11 @@ public class BaseDeDatos {
     
     public BaseDeDatos() throws InterruptedException{
         Recuperar();
-        IniciarSesion();
+        IniciarSesion("","");
     }
     
-    public static void Guardar(){
-        String archivo = "Usuarios.txt";
-        try{
-            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
-            ob.writeObject(perfiles);
-            ob.close();
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }   
-    }
-    
-    public static void Recuperar(){
-        String archivo = "Usuarios.txt";
-        perfiles = new ArrayList<Perfil>();
-        try{
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream(archivo));
-            perfiles = (ArrayList<Perfil>) is.readObject(); 
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
-        } 
-        
-    }
-    
-    public static void IniciarSesion() throws InterruptedException{
-        GUI_inicio IS = new GUI_inicio();
+    public static void IniciarSesion(String correo,String contrasena) throws InterruptedException{
+        GUI_inicio IS = new GUI_inicio(correo,contrasena);
         int posicion;
         do{
             Thread.sleep(100);
@@ -78,12 +40,12 @@ public class BaseDeDatos {
                 }
                 else{
                     JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
-                    IniciarSesion();
+                    IniciarSesion(correo,contrasena);
                 }
             }
             else{
                 JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
-                IniciarSesion();
+                IniciarSesion(correo,contrasena);
             }
         }
         else{
@@ -114,7 +76,7 @@ public class BaseDeDatos {
                 if(r.contrasena_1.equals(r.contrasena_2)){
                     perfiles.add(new Usuario(r.nombre,r.fecha_nacimiento,r.correo,r.contrasena_1));
                     Guardar();
-                    IniciarSesion();
+                    IniciarSesion(r.correo,r.contrasena_1);
                 }else{
                     JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
                     Registrarse();
@@ -122,19 +84,25 @@ public class BaseDeDatos {
             }
             else{
                 JOptionPane.showMessageDialog(null , "El correo ingresado ya se encuentra registrado" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                IniciarSesion();
+                IniciarSesion("","");
             }
         }else{
-            IniciarSesion();
+            IniciarSesion("","");
         }
     }
     
-    public static void InformacionC(Perfil p){
-        GUI_cliente c = new GUI_cliente(perfiles.get(pos_u).nombre,perfiles.get(pos_u).correo,perfiles.get(pos_u).fecha_nacimiento,perfiles.get(pos_u).preferencias);
+    public static void InformacionC(Perfil p) throws InterruptedException{
+        GUI_cliente c = new GUI_cliente(perfiles.get(pos_u));
+        do{
+            Thread.sleep(100);
+        }while(c.estado==0);
+        if (c.estado==1){
+            IniciarSesion(c.correo,"");
+        }
     }
     
     public static void InformacionA(Perfil p){
-        GUI_administrador a = new GUI_administrador();
+        GUI_administrador a = new GUI_administrador(perfiles.get(pos_u));
     }
     
     public static void EliminarCuenta(String correo){
@@ -156,34 +124,7 @@ public class BaseDeDatos {
         return cod;
     }
     
-    public static void EnviarCorreo(String correo,String mensaje, String asunto){
-        Properties propiedad = new Properties();
-        propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
-        propiedad.setProperty("mail.smtp.starttls.enable", "true");
-        propiedad.setProperty("mail.smtp.port", "587");
-        propiedad.setProperty("mail.smtp.auth", "true");
-        
-        Session sesion = Session.getDefaultInstance(propiedad);
-        String correoEnvia = "compareandbuy2020@gmail.com";
-        String contrasena = "compareandbuy";
-        MimeMessage mail = new MimeMessage(sesion);
-        try {
-            mail.setFrom(new InternetAddress(correoEnvia));
-            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
-            mail.setSubject(asunto);
-            mail.setText(mensaje);
-            
-            Transport transporte = sesion.getTransport("smtp");
-            transporte.connect(correoEnvia,contrasena);
-            transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
-            transporte.close();
-            
-            JOptionPane.showMessageDialog(null, "Listo, revise su correo");
-            
-        } catch (MessagingException ex) {
-            Logger.getLogger(BaseDeDatos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     
      //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
  /*   public static void RecuperarContrasena(){
@@ -206,4 +147,32 @@ public class BaseDeDatos {
         }
          
     }*/
+    
+    public static void Guardar(){
+        String archivo = "Usuarios.txt";
+        try{
+            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
+            ob.writeObject(perfiles);
+            ob.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }   
+    }
+    
+    public static void Recuperar(){
+        String archivo = "Usuarios.txt";
+        perfiles = new ArrayList<Perfil>();
+        try{
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(archivo));
+            perfiles = (ArrayList<Perfil>) is.readObject(); 
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }    
+    }
 }

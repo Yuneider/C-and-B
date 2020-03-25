@@ -36,6 +36,26 @@ public class  Perfil implements Serializable{
         
     }
     
+    public int CalcularEdad(){
+        Calendar actual = Calendar.getInstance();
+        int edad;
+        
+        edad =actual.get(Calendar.YEAR)-this.fecha_nacimiento.get(Calendar.YEAR);
+        if(this.fecha_nacimiento.get(Calendar.MONTH)>actual.get(Calendar.MONTH)){
+            --edad;
+        }
+        else{
+            if(this.fecha_nacimiento.get(Calendar.MONTH)==actual.get(Calendar.MONTH)){
+                if(this.fecha_nacimiento.get(Calendar.DATE)>actual.get(Calendar.DATE)){
+                    --edad;
+                }
+            }
+        }
+        return edad;
+    }
     
+    public String ToString_fn(){
+        return this.fecha_nacimiento.get(Calendar.DATE)+"/"+(this.fecha_nacimiento.get(Calendar.MONTH)+1)+"/"+this.fecha_nacimiento.get(Calendar.YEAR);
+    }
     
 }
