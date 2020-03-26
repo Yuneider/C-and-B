@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +26,10 @@ public class BaseDeDatos {
         
     private static ArrayList<Perfil> perfiles;
     private static int pos_u;
-    private static ArrayList<Elements> Lista;
+    private static ArrayList<Elements> lista;
     
     public BaseDeDatos() throws InterruptedException, IOException{
+        
         Recuperar();
         MostrarPerfiles();
         IniciarSesion("","");
@@ -48,29 +51,33 @@ public class BaseDeDatos {
             Thread.sleep(100);
         }while(IS.estado==0);
         posicion = BuscarPorCorreo(IS.correo);
-        if(IS.estado==1){    
-            if (posicion!=-1){
-                if (IS.contrasena.equals(perfiles.get(posicion).contrasena)){
-                    pos_u= posicion;
-                    if (perfiles.get(posicion).rol==true){
-                        InformacionA(perfiles.get(pos_u));
+        switch (IS.estado){
+            case 1:
+                if (posicion!=-1){
+                    if (IS.contrasena.equals(perfiles.get(posicion).contrasena)){
+                        if (perfiles.get(posicion).rol==true){
+                            InformacionA(perfiles.get(pos_u));
+                        }
+                        else{   
+                            InformacionC(perfiles.get(pos_u));
+                        }
                     }
-                    else{   
-                        InformacionC(perfiles.get(pos_u));
+                    else{
+                        JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+                        IniciarSesion(IS.correo,"");
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
-                    IniciarSesion(correo,contrasena);
+                    JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
+                    IniciarSesion("","");
                 }
-            }
-            else{
-                JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
-                IniciarSesion(correo,contrasena);
-            }
-        }
-        else{
-            Registrarse();
+            break;    
+            case 2:
+                Registrarse("","","");
+            break;
+            case 3:
+                RecuperarContrasena();
+            break;    
         }
     }    
     
@@ -82,34 +89,43 @@ public class BaseDeDatos {
                 result=i;
             }
         }
+        pos_u=result;
         return result;
     }
     
-    public static void Registrarse() throws InterruptedException, IOException{
-        GUI_registrar r = new GUI_registrar();
+    public static void Registrarse(String nombre,String apellido,String correo) throws InterruptedException, IOException{
+        GUI_registrar r = new GUI_registrar(nombre,apellido,correo);
         int posicion;
         do{
             Thread.sleep(100);
         }while(r.estado==0);
         posicion = BuscarPorCorreo(r.correo);
-        if(r.fecha==false){
-            Registrarse();
-        }
         if(r.estado==1){
-            if (posicion==-1){
-                if(r.contrasena_1.equals(r.contrasena_2)){
-                    perfiles.add(new Usuario(r.nombre,r.fecha_nacimiento,r.correo,r.contrasena_1));
-                    Guardar();
-                    IniciarSesion(r.correo,r.contrasena_1);
-                }else{
-                    JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                    Registrarse();
-                }   
+            if(r.correo.equals("") || r.contrasena_1.equals("") || r.contrasena_2.equals("") || r.nombre.equals("")){
+                JOptionPane.showMessageDialog(null , "Faltan campos obligatorios" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                Registrarse(r.nombre,r.apellido,r.correo);
             }
             else{
-                JOptionPane.showMessageDialog(null , "El correo ingresado ya se encuentra registrado" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                IniciarSesion("","");
-            }
+                if (posicion==-1){
+                    boolean validar= ValidarFechas(r.dia_nacimiento,r.mes_nacimiento,r.anno_nacimiento);
+                    if(validar==false){
+                        JOptionPane.showMessageDialog(null , "La fecha ingresada no existe" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        Registrarse(r.nombre,r.apellido,r.correo);
+                    }
+                    if(r.contrasena_1.equals(r.contrasena_2)){
+                        perfiles.add(new Usuario(r.nombre,OrganizarCalendar(r.dia_nacimiento,r.mes_nacimiento,r.anno_nacimiento),r.correo,r.contrasena_1));
+                        Guardar();
+                        IniciarSesion(r.correo,r.contrasena_1);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        Registrarse(r.nombre,r.apellido,r.correo);
+                    }   
+                }
+                else{
+                    JOptionPane.showMessageDialog(null , "El correo ingresado ya se encuentra registrado" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                    IniciarSesion(r.correo,"");
+                }         
+            }    
         }
         if(r.estado==2){
             IniciarSesion("","");
@@ -118,15 +134,25 @@ public class BaseDeDatos {
     
     public static void InformacionC(Perfil p) throws InterruptedException, IOException{
         GUI_cliente c = new GUI_cliente(perfiles.get(pos_u));
-        do{
-            Thread.sleep(100);
-        }while(c.estado==0);
-        if (c.estado==1){
-            IniciarSesion(c.correo,"");
-        }
+        do{    
+            do{
+                Thread.sleep(100);
+            }while(c.estado==0);
+            switch (c.estado){
+                case 1:
+                    Guardar();
+                break;    
+                case 2:
+                    IniciarSesion(c.correo,"");
+                break;
+                case 3:
+                    CambiarContrasena("");
+                break;    
+            }
+            c.estado=0;
+        }while(c.estado!=2);    
     }
     
-    //REVISA ESTO PORFA JHONY
     public static void InformacionA(Perfil p) throws InterruptedException, IOException{
         GUI_administrador a = new GUI_administrador(perfiles.get(pos_u));
         do{
@@ -135,11 +161,12 @@ public class BaseDeDatos {
         switch(a.estado){
             case 1://ELIMINAR USUARIO   
                 EliminarCuenta(a.correo_eliminar);
+                pos_u=BuscarPorCorreo(a.correo);
                 InformacionA(perfiles.get(pos_u));
                 break;
             case 2://SCRAPEAR
                 Extractor e = new Extractor();
-                Lista=e.Lista;
+                lista=e.Lista;
                 InformacionA(perfiles.get(pos_u));
                 break;
             case 3://VER ESTADISTICAS
@@ -154,20 +181,37 @@ public class BaseDeDatos {
     
     public static void EliminarCuenta(String correo){
         int posicion = BuscarPorCorreo(correo);
-        perfiles.remove(posicion);
-        Guardar();
+        if (posicion==-1){
+            JOptionPane.showMessageDialog(null , "El correo "+correo+" no se encuentra en la base de datos." , "ELIMINAR USUARIO" , JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            perfiles.remove(posicion);
+            JOptionPane.showMessageDialog(null , "La cuenta "+correo+" fue eliminada satisfactoriamente." , "ELIMINAR USUARIO" , JOptionPane.ERROR_MESSAGE);
+            Guardar();
+        }
     }
     
-    public static void CambiarContrasena() throws InterruptedException, IOException, IOException{
-        GUI_CambiarContrasena cc = new GUI_CambiarContrasena();
-        if(cc.contrasena1.equals(cc.contrasena2)){
-            perfiles.get(pos_u).contrasena=cc.contrasena1;
-            JOptionPane.showMessageDialog(null , "Su contraseña ha sido modificada" , "PROCESO CULMINADO" , JOptionPane.PLAIN_MESSAGE);
-            InformacionC(perfiles.get(pos_u));
-        }else{
-            JOptionPane.showMessageDialog(null , "las contraseñas ingresadas no coinciden" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
-            CambiarContrasena();
-        }
+    public static void CambiarContrasena(String ca) throws InterruptedException, IOException, IOException{
+        GUI_CambiarContrasena cc = new GUI_CambiarContrasena(ca);
+        do{
+            Thread.sleep(100);
+        }while(cc.estado==0);
+        if(cc.contrasena_a.equals(perfiles.get(pos_u).contrasena)){
+            if(cc.contrasena1.equals(cc.contrasena2)){
+                perfiles.get(pos_u).contrasena=cc.contrasena1;
+                JOptionPane.showMessageDialog(null , "La contraseña se modifico correctaente" , "CAMBIO DE CONTRASEÑA" , JOptionPane.PLAIN_MESSAGE);   
+                Guardar();
+                IniciarSesion(perfiles.get(pos_u).correo,"");
+            }
+            else{
+                JOptionPane.showMessageDialog(null , "Las contraseñas ingresadas no coinciden" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
+                CambiarContrasena(ca);
+            }    
+        }    
+        else{
+            JOptionPane.showMessageDialog(null , "La contraseña anterior no coincide" , "ERROR DE AUTENTICACION" , JOptionPane.ERROR_MESSAGE);
+            CambiarContrasena("");
+        }    
     }
     
     public static String GenerarNumeroAleatorio(){
@@ -179,28 +223,37 @@ public class BaseDeDatos {
     }
     
     //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
-    public void RecuperarContrasena() throws InterruptedException, IOException{
-        Controlador c = new Controlador();
+    public static void RecuperarContrasena() throws InterruptedException, IOException{
         GUI_RecuperarContrasena rc = new GUI_RecuperarContrasena();
-        String correo=rc.correo;
-        int posicion = BuscarPorCorreo(correo);
+        do{
+            Thread.sleep(100);
+        }while(rc.estado==0);
+        int posicion = BuscarPorCorreo(rc.correo);
         String codigo = GenerarNumeroAleatorio();
-        String mensaje ="Apreciado usuario.\n\nSu código de verificación es el siguiente: "+codigo+"\n\nQue tenga un buen día.";
-        String asunto="Codigo de veridifcacion";
-        EnviarCorreo(correo,mensaje,asunto);
-        JOptionPane.showMessageDialog(null , "Porfavor revise su correo" , "PROCESO CULMINADO" , JOptionPane.PLAIN_MESSAGE);
-        GUI_RecuperarContrasena_2 rc_2 = new GUI_RecuperarContrasena_2();
-        String cod =rc_2.codigo_verificacion;
-        if(cod.equals(codigo)){
-            CambiarContrasena();
-        }else{
-            JOptionPane.showMessageDialog(null , "El código ingresado no coincide con el que fué enviado a su correo" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
+        if (posicion!=-1){
+            EnviarCorreo(rc.correo,"Apreciado usuario.\n\nSu código de verificación es: "+codigo+"\n\nFavor ingreselo en la App para recuperar su cuenta","C&B-Olvide mi contraseña");
+            do{
+                do{    
+                    Thread.sleep(100);
+                }while(rc.estado==1);
+                if(rc.codigo_verificacion.equals(codigo)){
+                    rc.dispose();
+                    CambiarContrasena(perfiles.get(pos_u).contrasena);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null , "El código de verificacion no coincide" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
+                    rc.estado=1;
+                }
+            }while(!rc.codigo_verificacion.equals(codigo)); 
+        }
+        else{
+            JOptionPane.showMessageDialog(null , "El correo ingresado no existe en la base de datos" , "ERROR DE AUTENTICACIÓN" , JOptionPane.ERROR_MESSAGE);
+            rc.dispose();
             RecuperarContrasena();
         }
-         
     }
     
-    public void EnviarCorreo(String correo,String mensaje, String asunto){
+    public static void EnviarCorreo(String correo,String mensaje, String asunto){
         Properties propiedad = new Properties();
         propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
         propiedad.setProperty("mail.smtp.starttls.enable", "true");
@@ -222,7 +275,7 @@ public class BaseDeDatos {
             transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
             transporte.close();
             
-            JOptionPane.showMessageDialog(null, "Listo, revise su correo","PROCESO CULMINADO",JOptionPane.PLAIN_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Listo, revise su correo","PROCESO CULMINADO",JOptionPane.PLAIN_MESSAGE);
             
         } catch (MessagingException ex) {
             Logger.getLogger(BaseDeDatos.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,20 +309,98 @@ public class BaseDeDatos {
             e.printStackTrace();
         }    
     }
-    
-    //REVISA ESTO PORFA JHONY
-    public static void RecuperarScraper(){
-        String archivo = "Scraping.txt";
-        Lista = new ArrayList<Elements>();
-        try{
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream(archivo));
-            Lista = (ArrayList<Elements>) is.readObject(); 
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }    
+
+    public static boolean ValidarFechas(String d, String m, String a){
+        boolean fecha=true;
+        switch(m){
+            case "Febrero":
+                if ((Integer.parseInt(a)%4==0) && ((Integer.parseInt(a)%100!=0) || (Integer.parseInt(a)%400==0))){
+                    if(Integer.parseInt(d)<=29){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                }else{
+                    if(Integer.parseInt(d)<=28){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                }
+                break;
+            case "Abril":
+                if(Integer.parseInt(d)<=30){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                break;
+            case "Junio":
+                if(Integer.parseInt(d)<=30){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                break;    
+            case "Septiembte":
+                if(Integer.parseInt(d)<=30){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                break;
+            case "Noviembre":
+                if(Integer.parseInt(d)<=30){
+                        fecha=true;
+                    }else{
+                        fecha=false;
+                    }
+                break;   
+        }
+        return fecha;
     }
+    
+    public static Calendar OrganizarCalendar(String d, String m, String a){
+        Calendar fecha_nacimiento= new GregorianCalendar(2000,Calendar.JANUARY,1);
+        switch(m){
+            case "Enero":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JANUARY,Integer.parseInt(d));
+                break;
+            case "Febrero":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.FEBRUARY,Integer.parseInt(d));
+                break;
+            case "Marzo":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MARCH,Integer.parseInt(d));
+                break;
+            case "Abril":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.APRIL,Integer.parseInt(d));
+                break;
+            case "Mayo":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MAY,Integer.parseInt(d));
+                break;
+            case "Junio":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JUNE,Integer.parseInt(d));
+                break;    
+            case "Julio":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JULY,Integer.parseInt(d));
+                break;    
+            case "Agosto":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.AUGUST,Integer.parseInt(d));
+                break;
+            case "Septiembte":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.SEPTEMBER,Integer.parseInt(d));
+                break;
+            case "Octubre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.OCTOBER,Integer.parseInt(d));
+                break;
+            case "Noviembre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.NOVEMBER,Integer.parseInt(d));
+                break;
+            case "Diciembre":
+                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.DECEMBER,Integer.parseInt(d));
+                break;    
+        }
+        return fecha_nacimiento;
+    }
+    
 }

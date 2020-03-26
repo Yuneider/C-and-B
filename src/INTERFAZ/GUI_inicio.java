@@ -15,9 +15,20 @@ import javax.swing.JTextField;
 
 public class GUI_inicio extends JFrame{
     
-public String correo;
-public String contrasena;
-public int estado=0;
+    public String correo;
+    public String contrasena;
+    public int estado=0;
+
+    private JLabel lbl_titulo1;
+    private JLabel lbl_titulo2;
+    private JLabel lbl_titulo3;
+    private JButton btn_login;
+    private JButton btn_registrar;
+    private JButton btn_recuperar;
+    private JPasswordField pwf;
+    private JTextField jtf_usuario;
+    private JLabel lbl_1;
+    private JLabel lbl_2;
 
     public GUI_inicio(String c,String p){
         //Creacion de colores
@@ -42,17 +53,20 @@ public int estado=0;
         lbl_logo.repaint();
         
         //Crear elementos de la ventana
-        JLabel lbl_titulo1 = new JLabel("COMPARE");
-        JLabel lbl_titulo2 = new JLabel("&");
-        JLabel lbl_titulo3 = new JLabel("BUY");
-        JButton btn_login = new JButton("Ingresar");
-        JButton btn_registrar = new JButton("Registrarme");
-        JPasswordField pwf = new JPasswordField(p);
-        JTextField jtf_usuario = new JTextField(c);
-        JLabel lbl_1 = new JLabel("Usuario:");
-        JLabel lbl_2 = new JLabel("Contraseña: ");
+        lbl_titulo1 = new JLabel("COMPARE");
+        lbl_titulo2 = new JLabel("&");
+        lbl_titulo3 = new JLabel("BUY");
+        btn_login = new JButton("Ingresar");
+        btn_registrar = new JButton("Registrarme");
+        btn_recuperar = new JButton("¿Olvidaste la contraseña?");
+        btn_recuperar.setBorder(null);
+        pwf = new JPasswordField(p);
+        jtf_usuario = new JTextField(c);
+        lbl_1 = new JLabel("Usuario:");
+        lbl_2 = new JLabel("Contraseña: ");
         
         //Fuente de los elementos
+        btn_recuperar.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         btn_registrar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         btn_login.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_titulo1.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
@@ -67,12 +81,13 @@ public int estado=0;
         lbl_titulo1.setBounds(180, 30, 120, 30);
         lbl_titulo2.setBounds(290, 30, 20, 30);
         lbl_titulo3.setBounds(310, 30, 50, 30);
-        lbl_1.setBounds(50, 100, 150, 30);
-        lbl_2.setBounds(50, 150, 150, 30);
-        btn_login.setBounds(50, 200, 120, 30);
-        btn_registrar.setBounds(270, 200, 130, 30);        
-        jtf_usuario.setBounds(150, 100, 240, 25);
-        pwf.setBounds(150, 150, 150, 25);
+        lbl_1.setBounds(50, 90, 150, 30);
+        lbl_2.setBounds(50, 130, 150, 30);
+        btn_login.setBounds(50, 180, 120, 30);
+        btn_recuperar.setBounds(20, 220, 200, 30);
+        btn_registrar.setBounds(270, 180, 130, 30);        
+        jtf_usuario.setBounds(150, 90, 240, 25);
+        pwf.setBounds(150, 130, 150, 25);
         
         //Colores de los elementos
         lbl_titulo1.setForeground(color_azul);
@@ -84,6 +99,8 @@ public int estado=0;
         pwf.setBackground(color_grisc);
         btn_login.setBackground(color_grisc);
         btn_registrar.setBackground(color_grisc);
+        btn_recuperar.setBackground(color_griso);
+        btn_recuperar.setForeground(color_azul);
         
         //Agregar elementos a la ventana
         this.add(lbl_titulo1);
@@ -92,23 +109,16 @@ public int estado=0;
         this.add(lbl_1);
         this.add(lbl_2);
         this.add(btn_login);
+        this.add(btn_recuperar); 
         this.add(btn_registrar);
         this.add(lbl_logo);
         this.add(pwf);
         this.add(jtf_usuario);
         
         //Boton de ingreso
-        ActionListener ingresar = new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                correo=jtf_usuario.getText();
-                contrasena=pwf.getText();
-                estado=1;
-                dispose();
-            }
-        };
-        
         btn_login.addActionListener(ingresar);
         btn_registrar.addActionListener(registrarse);
+        btn_recuperar.addActionListener(recuperar);
         
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,6 +127,22 @@ public int estado=0;
     ActionListener registrarse = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {    
             estado =2;
+            dispose();
+        }
+    };
+    
+    ActionListener recuperar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {    
+            estado =3;
+            dispose();
+        }
+    };
+    
+    ActionListener ingresar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            estado=1;
+            correo=jtf_usuario.getText();
+            contrasena=pwf.getText();
             dispose();
         }
     };

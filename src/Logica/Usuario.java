@@ -11,7 +11,7 @@ public class Usuario extends Perfil{
         this.correo = correo;
         this.contrasena = Contrasena;
         this.rol = false;
-        preferencias = new boolean[6];
+        preferencias = new boolean[7];
         for (int i=0;i<preferencias.length;i++){
             this.preferencias[i]=false;
         }

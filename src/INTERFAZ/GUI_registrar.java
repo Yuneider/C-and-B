@@ -7,29 +7,28 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class GUI_registrar extends JFrame{
     
     public String nombre;
+    public String apellido;
     public String correo;
     public String contrasena_1;
     public String contrasena_2;
-    public Calendar fecha_nacimiento;
+    public String dia_nacimiento;
+    public String mes_nacimiento;
+    public String anno_nacimiento;
     public int estado=0;  
-    public boolean fecha=true;
     
-    public GUI_registrar(){
+    public GUI_registrar(String n, String a, String c){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
@@ -57,17 +56,17 @@ public class GUI_registrar extends JFrame{
         JLabel lbl_titulo2 = new JLabel("&");
         JLabel lbl_titulo3 = new JLabel("BUY");
         JLabel lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicacion pensada para personas ocupadas, no hay necesidad de que busques en diversas paginas web algun producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
-        JLabel lbl_nombre = new JLabel("Nombres:");
+        JLabel lbl_nombre = new JLabel("Nombres: *");
         JLabel lbl_apellido = new JLabel("Apellidos: ");
-        JLabel lbl_contrasena = new JLabel("Contraseña: ");
-        JLabel lbl_correo = new JLabel("Correo: ");
-        JLabel lbl_confirmacion1 = new JLabel("Confirmacion");
+        JLabel lbl_contrasena = new JLabel("Contraseña: *");
+        JLabel lbl_correo = new JLabel("Correo: *");
+        JLabel lbl_confirmacion1 = new JLabel("Confirmacion  *");
         JLabel lbl_confirmacion2 = new JLabel("Contraseña: ");
         JLabel lbl_fecha1 = new JLabel("Fecha de");
         JLabel lbl_fecha2 = new JLabel("Nacimiento: ");
-        JTextField jtf_nombre = new JTextField();
-        JTextField jtf_apellido = new JTextField();
-        JTextField jtf_correo = new JTextField();
+        JTextField jtf_nombre = new JTextField(n);
+        JTextField jtf_apellido = new JTextField(a);
+        JTextField jtf_correo = new JTextField(c);
         JPasswordField pwf1 = new JPasswordField();
         JPasswordField pwf2 = new JPasswordField();
         JButton btn_guardar = new JButton("Guardar Registro");
@@ -185,19 +184,14 @@ public class GUI_registrar extends JFrame{
         
         ActionListener guardar = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {    
-                nombre=jtf_nombre.getText()+" "+jtf_apellido.getText();
+                nombre=jtf_nombre.getText();
+                apellido=jtf_apellido.getText();
                 correo=jtf_correo.getText();
                 contrasena_1=pwf1.getText();
                 contrasena_2=pwf2.getText();
-                
-                String d=(String)jcb_dia.getSelectedItem();
-                String m=(String)jcb_mes.getSelectedItem();
-                String a=(String)jcb_anno.getSelectedItem();
-                //VALIDAR FECHAS
-                ValidarFechas(d,m,a);
-                OrganizarCalendar(d,m,a);//ORGANIZARFEHCAS
-                
-                
+                dia_nacimiento=(String)jcb_dia.getSelectedItem();
+                mes_nacimiento=(String)jcb_mes.getSelectedItem();
+                anno_nacimiento=(String)jcb_anno.getSelectedItem();
                 estado=1;
                 dispose();
             }
@@ -208,101 +202,6 @@ public class GUI_registrar extends JFrame{
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-    }
-    
-    private void OrganizarCalendar(String d, String m, String a){
-        switch(m){
-            case "Enero":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JANUARY,Integer.parseInt(d));
-                break;
-            case "Febrero":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.FEBRUARY,Integer.parseInt(d));
-                break;
-            case "Marzo":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MARCH,Integer.parseInt(d));
-                break;
-            case "Abril":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.APRIL,Integer.parseInt(d));
-                break;
-            case "Mayo":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.MAY,Integer.parseInt(d));
-                break;
-            case "Junio":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JUNE,Integer.parseInt(d));
-                break;    
-            case "Julio":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JULY,Integer.parseInt(d));
-                break;    
-            case "Agosto":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.AUGUST,Integer.parseInt(d));
-                break;
-            case "Septiembte":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.SEPTEMBER,Integer.parseInt(d));
-                break;
-            case "Octubre":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.OCTOBER,Integer.parseInt(d));
-                break;
-            case "Noviembre":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.NOVEMBER,Integer.parseInt(d));
-                break;
-            case "Diciembre":
-                fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.DECEMBER,Integer.parseInt(d));
-                break;    
-        }
-    }
-    
-    private void ValidarFechas(String d, String m, String a){
-        switch(m){
-            case "Febrero":
-                if ((Integer.parseInt(a)%4==0) && ((Integer.parseInt(a)%100!=0) || (Integer.parseInt(a)%400==0))){
-                    if(Integer.parseInt(d)<=29){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                }else{
-                    if(Integer.parseInt(d)<=28){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                }
-                break;
-            case "Abril":
-                if(Integer.parseInt(d)<=30){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                break;
-            case "Junio":
-                if(Integer.parseInt(d)<=30){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                break;    
-            case "Septiembte":
-                if(Integer.parseInt(d)<=30){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                break;
-            case "Noviembre":
-                if(Integer.parseInt(d)<=30){
-                        OrganizarCalendar(d,m,a);
-                    }else{
-                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
-                        fecha=false;
-                    }
-                break;   
-        }
     }
     
     ActionListener cancelar = new ActionListener() {

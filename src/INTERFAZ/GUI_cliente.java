@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,16 +18,40 @@ public class GUI_cliente extends JFrame{
 
     public String correo; 
     public int estado=0;
+    public boolean[] preferencias = new boolean[7];
     
+    private JPanel jp_info_p;
+    private JCheckBox jcb_notificacion;
+    private JCheckBox jcb_celulares;
+    private JCheckBox jcb_vehiculos;
+    private JCheckBox jcb_deportes;
+    private JCheckBox jcb_videojuegos;
+    private JCheckBox jcb_computacion;
+    private JCheckBox jcb_oficina;
+    private JButton btn_modificar_con;
+    private JButton btn_salir;        
+    private JButton btn_preferencias;
+    private JButton btn_guardar;
+    private JLabel lbl_mensaje;
+    private JLabel lbl_titulo1;
+    private JLabel lbl_titulo2;
+    private JLabel lbl_titulo3;
+    private JLabel lbl_preferencias;
+    private JLabel lbl_nombre;
+    private JLabel lbl_correo;
+    private JLabel lbl_fecha_nacimiento;
+    private JLabel lbl_info_p;
+
     public GUI_cliente(Perfil p){
         correo=p.correo;
-        
+        preferencias=p.preferencias;
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
         Color color_rojo=new Color(180,8,8);
         Color color_azul=new Color(82,113,255);    
         Color color_grism=new Color(60,63,65);
+        
         //Propiedades de la ventana
         this.setTitle("C&B-App");
         this.setLayout(null);
@@ -45,28 +68,28 @@ public class GUI_cliente extends JFrame{
         lbl_logo.repaint();
         
         //Crear elementos de la ventana
-        JPanel jp_info_p = new JPanel();
+        jp_info_p = new JPanel();
         jp_info_p.setLayout(null);
-        JCheckBox jcb_notificacion = new JCheckBox("Recibir notificaciones");
-        JCheckBox jcb_celulares = new JCheckBox("Celulares y Smartphones");
-        JCheckBox jcb_vehiculos = new JCheckBox("Vehiculos");
-        JCheckBox jcb_deportes = new JCheckBox("Deportes");
-        JCheckBox jcb_videojuegos = new JCheckBox("Videojuegos");
-        JCheckBox jcb_computacion = new JCheckBox("Computacion");
-        JCheckBox jcb_oficina = new JCheckBox("Oficina");
-        JButton btn_modificar_con = new JButton("Cambiar contraseña");
-        JButton btn_salir = new JButton("Cerrar Sesion");        
-        JButton btn_preferencias = new JButton("<html>Modificar Preferencias<html>");
-        JButton btn_guardar = new JButton("Guardar");
-        JLabel lbl_mensaje = new JLabel("<html>Al aceptar recibir notificaciones se te enviaran correos electronicos al email registrado con los productos descatados de las categorias (preferencias) que hayas seleccionado anteriormente.<html>");
-        JLabel lbl_titulo1 = new JLabel("COMPARE");
-        JLabel lbl_titulo2 = new JLabel("&");
-        JLabel lbl_titulo3 = new JLabel("BUY");
-        JLabel lbl_preferencias = new JLabel("Preferencias");
-        JLabel lbl_nombre = new JLabel("Nombre:                      "+p.nombre);
-        JLabel lbl_correo = new JLabel("Email:                          "+p.correo);
-        JLabel lbl_fecha_nacimiento = new JLabel("Fecha de nacimiento:   "+p.ToString_fn()+" ( "+p.CalcularEdad()+" años )");
-        JLabel lbl_info_p = new JLabel("INFORMACION PERSONAL");
+        jcb_notificacion = new JCheckBox("Recibir notificaciones");
+        jcb_celulares = new JCheckBox("Celulares y Smartphones");
+        jcb_vehiculos = new JCheckBox("Vehiculos");
+        jcb_deportes = new JCheckBox("Deportes");
+        jcb_videojuegos = new JCheckBox("Videojuegos");
+        jcb_computacion = new JCheckBox("Computacion");
+        jcb_oficina = new JCheckBox("Oficina");
+        btn_modificar_con = new JButton("Cambiar contraseña");
+        btn_salir = new JButton("Cerrar Sesion");        
+        btn_preferencias = new JButton("<html>Modificar Preferencias<html>");
+        btn_guardar = new JButton("Guardar");
+        lbl_mensaje = new JLabel("<html>Al aceptar recibir notificaciones se te enviaran correos electronicos al email registrado con los productos descatados de las categorias (preferencias) que hayas seleccionado anteriormente.<html>");
+        lbl_titulo1 = new JLabel("COMPARE");
+        lbl_titulo2 = new JLabel("&");
+        lbl_titulo3 = new JLabel("BUY");
+        lbl_preferencias = new JLabel("Preferencias");
+        lbl_nombre = new JLabel("Nombre:                      "+p.nombre);
+        lbl_correo = new JLabel("Email:                          "+p.correo);
+        lbl_fecha_nacimiento = new JLabel("Fecha de nacimiento:   "+p.ToString_fn()+" ( "+p.CalcularEdad()+" años )");
+        lbl_info_p = new JLabel("INFORMACION PERSONAL");
        
         //Fuente de los elementos
         lbl_mensaje.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
@@ -108,10 +131,10 @@ public class GUI_cliente extends JFrame{
         jcb_videojuegos.setBounds(50, 400, 240, 30);
         jcb_computacion.setBounds(50, 430, 240, 30);
         jcb_oficina.setBounds(50, 460, 240, 30);
-        btn_modificar_con.setBounds(442,195,190,25);
+        btn_modificar_con.setBounds(400,110,190,25);
         btn_salir.setBounds(500,480,150,50);
-        btn_preferencias.setBounds(100,250,130,50);
-        btn_guardar.setBounds(100,500,100,30);
+        btn_preferencias.setBounds(200,250,130,50);
+        btn_guardar.setBounds(200,500,120,40);
         
         //Colores de los elementos
         lbl_mensaje.setForeground(color_grisc);
@@ -148,6 +171,8 @@ public class GUI_cliente extends JFrame{
         jp_info_p.setBackground(color_grism);
         
         //visibilidad componentes
+        ValidarSeleccionE();
+        jcb_notificacion.setEnabled(false);
         lbl_preferencias.setVisible(false);
         jcb_celulares.setEnabled(false);
         jcb_vehiculos.setEnabled(false);
@@ -162,6 +187,7 @@ public class GUI_cliente extends JFrame{
         jp_info_p.add(lbl_correo);
         jp_info_p.add(lbl_fecha_nacimiento);
         jp_info_p.add(lbl_info_p);
+        jp_info_p.add(btn_modificar_con);
         this.add(jp_info_p);
         this.add(lbl_mensaje);
         this.add(lbl_titulo1);
@@ -177,40 +203,13 @@ public class GUI_cliente extends JFrame{
         this.add(jcb_computacion);
         this.add(jcb_oficina);
         this.add(btn_salir);
-        this.add(btn_modificar_con);
         this.add(btn_preferencias);
         this.add(btn_guardar);
         
-        ActionListener habilitar = new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                btn_preferencias.setVisible(false);
-                jcb_celulares.setEnabled(true);
-                jcb_vehiculos.setEnabled(true);
-                jcb_deportes.setEnabled(true);
-                jcb_videojuegos.setEnabled(true);
-                jcb_computacion.setEnabled(true);
-                jcb_oficina.setEnabled(true);
-                btn_guardar.setVisible(true);
-                lbl_preferencias.setVisible(true);
-            }
-        };
-        ActionListener guardar = new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                btn_preferencias.setVisible(true);
-                jcb_celulares.setEnabled(false);
-                jcb_vehiculos.setEnabled(false);
-                jcb_deportes.setEnabled(false);
-                jcb_videojuegos.setEnabled(false);
-                jcb_computacion.setEnabled(false);
-                jcb_oficina.setEnabled(false);
-                btn_guardar.setVisible(false);
-                lbl_preferencias.setVisible(false);
-                        
-            }
-        };
         btn_guardar.addActionListener(guardar);
         btn_preferencias.addActionListener(habilitar);
         btn_salir.addActionListener(salir);
+        btn_modificar_con.addActionListener(modificar);
         
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -219,9 +218,113 @@ public class GUI_cliente extends JFrame{
     ActionListener salir = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
             dispose();
-            estado=1;
+            estado=2;
         }
     };
+        ActionListener modificar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            dispose();
+            estado=3;
+        }
+    };
+    ActionListener habilitar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            btn_preferencias.setVisible(false);
+            jcb_celulares.setEnabled(true);
+            jcb_vehiculos.setEnabled(true);
+            jcb_deportes.setEnabled(true);
+            jcb_videojuegos.setEnabled(true);
+            jcb_computacion.setEnabled(true);
+            jcb_oficina.setEnabled(true);
+            jcb_notificacion.setEnabled(true);
+            btn_guardar.setVisible(true);
+            lbl_preferencias.setVisible(true);
+        }
+    };
+
+    ActionListener guardar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            btn_preferencias.setVisible(true);
+            jcb_celulares.setEnabled(false);
+            jcb_vehiculos.setEnabled(false);
+            jcb_deportes.setEnabled(false);
+            jcb_videojuegos.setEnabled(false);
+            jcb_computacion.setEnabled(false);
+            jcb_oficina.setEnabled(false);
+            jcb_notificacion.setEnabled(false);
+            btn_guardar.setVisible(false);
+            lbl_preferencias.setVisible(false);
+            ValidarSeleccionS();
+            estado=1;
+        }
+    };         
+    private void ValidarSeleccionS() {
+           if(jcb_celulares.isSelected()){
+               preferencias[0]=true;
+           }
+           else{
+               preferencias[0]=false;
+           }
+           if(jcb_vehiculos.isSelected()){
+               preferencias[1]=true;
+           }
+           else{
+               preferencias[1]=false;
+           }
+           if(jcb_deportes.isSelected()){
+               preferencias[2]=true;
+           }
+           else{
+               preferencias[2]=false;
+           }
+           if(jcb_videojuegos.isSelected()){
+               preferencias[3]=true;
+           }
+           else{
+               preferencias[3]=false;
+           }
+           if(jcb_computacion.isSelected()){
+               preferencias[4]=true;
+           }
+           else{
+               preferencias[4]=false;
+           }
+           if(jcb_oficina.isSelected()){
+               preferencias[5]=true;
+           }
+           else{
+               preferencias[5]=false;
+           }
+           if(jcb_notificacion.isSelected()){
+               preferencias[6]=true;
+           }
+           else{
+               preferencias[6]=false;
+           }
+       }
+       private void ValidarSeleccionE() {
+           if(preferencias[0]==true){
+               jcb_celulares.doClick();
+           }
+           if(preferencias[1]==true){
+               jcb_vehiculos.doClick();
+           }
+           if(preferencias[2]==true){
+               jcb_deportes.doClick();
+           }
+           if(preferencias[3]==true){
+               jcb_videojuegos.doClick();
+           }
+           if(preferencias[4]==true){
+               jcb_computacion.doClick();
+           }
+           if(preferencias[5]==true){
+               jcb_oficina.doClick();
+           }
+           if(preferencias[6]==true){
+               jcb_notificacion.doClick();
+           }
+       }
 
 }
 

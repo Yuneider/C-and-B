@@ -10,7 +10,7 @@ public class Administrador extends Perfil{
         this.correo = correo;
         this.contrasena = contrasena;
         this.rol = true;
-        preferencias = new boolean[6];
+        preferencias = new boolean[7];
         for (int i=0;i<preferencias.length;i++){
             this.preferencias[i]=false;
         }

@@ -2,14 +2,11 @@
 package Logica;
 
 // Autor Jhony Caro
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Extractor {
@@ -19,86 +16,41 @@ public class Extractor {
     public Extractor() throws IOException{
         //Extraer datos Smarphones
         Document docCelulares = Jsoup.connect("https://celulares.mercadolibre.com.co/").get();
-        Elements searchCelulares = docCelulares.getElementsByClass("rowItem item highlighted item--stack new has-variations");
-        Elements titulosCelulares = new Elements();
-        Elements preciosCelulares = new Elements();
-        for(Element element: searchCelulares){
-            titulosCelulares = element.getElementsByClass("main-title");
-            preciosCelulares = element.getElementsByClass("price__fraction");
-        }
+        Elements searchCelulares = docCelulares.getElementsByClass("results-item highlighted article stack product ");
+        
         //Extraer datos vehiculos
         Document docVehiculos = Jsoup.connect("https://vehiculos.mercadolibre.com.co/").get();    
         Elements searchVehiculos = docVehiculos.getElementsByClass("rowItem item highlighted item--grid new ");
-        Elements titulosVehiculos = new Elements();
-        Elements preciosVehiculos = new Elements();
-        for(Element element: searchVehiculos) {
-            titulosVehiculos = element.getElementsByClass("item__title list-view-item-title ");
-            preciosVehiculos = element.getElementsByClass("item__price");
-        }
+        
         //Extraer datos deportes
         Document docDeportes = Jsoup.connect("https://deportes.mercadolibre.com.co/").get();    
         Elements searchDeportes = docDeportes.getElementsByClass("results-item highlighted article stack ");
-        Elements titulosDeportes = new Elements();
-        Elements preciosDeportes = new Elements();
-        for(Element element: searchDeportes) {
-            titulosDeportes = element.getElementsByClass("item__title list-view-item-title");
-            preciosDeportes = element.getElementsByClass("price__fraction");
-        }
+        
         //Extraer datos videojuegos
         Document docVideojuegos = Jsoup.connect("https://videojuegos.mercadolibre.com.co/").get();    
         Elements searchVideojuegos = docVideojuegos.getElementsByClass("results-item highlighted article stack ");
-        Elements titulosVideojuegos = new Elements();
-        Elements preciosVideojuegos = new Elements();
-        for(Element element: searchVideojuegos) {
-            titulosVideojuegos = element.getElementsByClass("main-title");
-            preciosVideojuegos = element.getElementsByClass("price__fraction");
-        }
+        
         //Extraer datos computacion
         Document docComputacion = Jsoup.connect("https://computacion.mercadolibre.com.co/").get();    
         Elements searchComputacion = docComputacion.getElementsByClass("results-item highlighted article stack ");
-        Elements titulosComputacion = new Elements();
-        Elements preciosComputacion = new Elements();
-        for(Element element: searchComputacion) {
-            titulosComputacion = element.getElementsByClass("main-title");
-            preciosComputacion = element.getElementsByClass("price__fraction");
-        }
+        
         //Extraer datos oficina
         Document docOficina = Jsoup.connect("https://listado.mercadolibre.com.co/industrias-y-oficinas/equipamiento/").get();    
         Elements searchOficina = docOficina.getElementsByClass("results-item highlighted article stack ");
-        Elements titulosOficina = new Elements();
-        Elements preciosOficina = new Elements();
-        for(Element element: searchOficina) {
-            titulosOficina = element.getElementsByClass("main-title");
-            preciosOficina = element.getElementsByClass("price__fraction");
-        }
-        Lista.add(0,titulosCelulares);
-        Lista.add(1,preciosCelulares);
-        Lista.add(2,titulosVehiculos);
-        Lista.add(3,preciosVehiculos);
-        Lista.add(4,titulosDeportes);
-        Lista.add(5,preciosDeportes);
-        Lista.add(6,titulosVideojuegos);
-        Lista.add(7,preciosVideojuegos);
-        Lista.add(8,titulosComputacion);
-        Lista.add(9,preciosComputacion);
-        Lista.add(10,titulosOficina);
-        Lista.add(11,preciosOficina);
-        Guardar();
-    }
-    
-    //REVISA ESTO PORFA JHONY
-    //HACER UN GUARDAR, PARA GUARDAR LA INFO DE SCRAPING
-    public void Guardar(){
-        String archivo = "Scraping.txt";
-        try{
-            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
-            ob.writeObject(Lista);
-            ob.close();
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }   
+        
+       /* for (Element element: searchOficina){
+            Elements titulosOficina = element.getElementsByClass("main-title");
+            Elements preciosOficina = element.getElementsByClass("price__fraction");
+            Elements linksOficina = docOficina.select("a.item__info-title");
+            System.out.println(titulosOficina.text()+"  $"+preciosOficina.text()+"  "+linksOficina.attr("abs:href"));
+        }*/
+        
+        Lista.add(searchCelulares);
+        Lista.add(searchVehiculos);
+        Lista.add(searchDeportes);
+        Lista.add(searchVideojuegos);
+        Lista.add(searchComputacion);
+        Lista.add(searchOficina);
     }
     
 }

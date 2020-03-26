@@ -13,7 +13,7 @@ public class  Perfil implements Serializable{
     public String correo;
     public String contrasena;
     public boolean rol; // True->Admi // False->Usuario
-    public boolean[] preferencias = new boolean[6];
+    public boolean[] preferencias = new boolean[7];
     
     public Perfil(String nombre, Calendar fecha_nacimiento, String correo, String Contrasena, boolean rol) {
         this.nombre = nombre;
