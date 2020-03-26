@@ -11,6 +11,16 @@ import javax.swing.JLabel;
 
 public class GUI_administrador extends JFrame{
 
+    //ATRIBUTOS
+    public String correo;
+    public int estado = 0;
+    public String correo_eliminar;
+    //Estado 1 = Eliminar usuario 
+    //Estado 2 = Scrapear
+    //Estado 3 = Ver estadisticas
+    //Estado 4 = Cerrarsesion
+    
+    
     public GUI_administrador(Perfil p){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);

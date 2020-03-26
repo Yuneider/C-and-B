@@ -2,8 +2,10 @@
 package Logica;
 
 // Autor Jhony Caro
-
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,8 +14,9 @@ import org.jsoup.select.Elements;
 
 public class Extractor {
  
+    public ArrayList<Elements> Lista = new ArrayList<Elements>();
     
-    public ArrayList<Elements> ExtraerCategorias() throws IOException{
+    public Extractor() throws IOException{
         //Extraer datos Smarphones
         Document docCelulares = Jsoup.connect("https://celulares.mercadolibre.com.co/").get();
         Elements searchCelulares = docCelulares.getElementsByClass("rowItem item highlighted item--stack new has-variations");
@@ -68,7 +71,6 @@ public class Extractor {
             titulosOficina = element.getElementsByClass("main-title");
             preciosOficina = element.getElementsByClass("price__fraction");
         }
-        ArrayList<Elements> Lista = new ArrayList<Elements>();
         Lista.add(0,titulosCelulares);
         Lista.add(1,preciosCelulares);
         Lista.add(2,titulosVehiculos);
@@ -81,8 +83,22 @@ public class Extractor {
         Lista.add(9,preciosComputacion);
         Lista.add(10,titulosOficina);
         Lista.add(11,preciosOficina);
-        return Lista;
+        Guardar();
     }
     
+    //REVISA ESTO PORFA JHONY
+    //HACER UN GUARDAR, PARA GUARDAR LA INFO DE SCRAPING
+    public void Guardar(){
+        String archivo = "Scraping.txt";
+        try{
+            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
+            ob.writeObject(Lista);
+            ob.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }   
+    }
     
 }

@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -26,6 +27,7 @@ public class GUI_registrar extends JFrame{
     public String contrasena_2;
     public Calendar fecha_nacimiento;
     public int estado=0;  
+    public boolean fecha=true;
     
     public GUI_registrar(){
         //Creacion de colores
@@ -191,7 +193,10 @@ public class GUI_registrar extends JFrame{
                 String d=(String)jcb_dia.getSelectedItem();
                 String m=(String)jcb_mes.getSelectedItem();
                 String a=(String)jcb_anno.getSelectedItem();
-                OrganizarCalendar(d,m,a);
+                //VALIDAR FECHAS
+                ValidarFechas(d,m,a);
+                OrganizarCalendar(d,m,a);//ORGANIZARFEHCAS
+                
                 
                 estado=1;
                 dispose();
@@ -202,9 +207,10 @@ public class GUI_registrar extends JFrame{
         btn_guardar.addActionListener(guardar);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
     
-    public void OrganizarCalendar(String d, String m, String a){
+    private void OrganizarCalendar(String d, String m, String a){
         switch(m){
             case "Enero":
                 fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.JANUARY,Integer.parseInt(d));
@@ -242,6 +248,60 @@ public class GUI_registrar extends JFrame{
             case "Diciembre":
                 fecha_nacimiento = new GregorianCalendar(Integer.parseInt(a),Calendar.DECEMBER,Integer.parseInt(d));
                 break;    
+        }
+    }
+    
+    private void ValidarFechas(String d, String m, String a){
+        switch(m){
+            case "Febrero":
+                if ((Integer.parseInt(a)%4==0) && ((Integer.parseInt(a)%100!=0) || (Integer.parseInt(a)%400==0))){
+                    if(Integer.parseInt(d)<=29){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                }else{
+                    if(Integer.parseInt(d)<=28){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                }
+                break;
+            case "Abril":
+                if(Integer.parseInt(d)<=30){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                break;
+            case "Junio":
+                if(Integer.parseInt(d)<=30){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                break;    
+            case "Septiembte":
+                if(Integer.parseInt(d)<=30){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                break;
+            case "Noviembre":
+                if(Integer.parseInt(d)<=30){
+                        OrganizarCalendar(d,m,a);
+                    }else{
+                        JOptionPane.showMessageDialog(null , "la fecha ingresada es incorrecta" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
+                        fecha=false;
+                    }
+                break;   
         }
     }
     

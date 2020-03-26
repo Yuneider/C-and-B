@@ -205,6 +205,7 @@ public class GUI_cliente extends JFrame{
                 jcb_oficina.setEnabled(false);
                 btn_guardar.setVisible(false);
                 lbl_preferencias.setVisible(false);
+                        
             }
         };
         btn_guardar.addActionListener(guardar);

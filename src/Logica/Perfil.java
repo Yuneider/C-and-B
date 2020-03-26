@@ -13,7 +13,7 @@ public class  Perfil implements Serializable{
     public String correo;
     public String contrasena;
     public boolean rol; // True->Admi // False->Usuario
-    public boolean[] preferencias;
+    public boolean[] preferencias = new boolean[6];
     
     public Perfil(String nombre, Calendar fecha_nacimiento, String correo, String Contrasena, boolean rol) {
         this.nombre = nombre;
@@ -21,8 +21,7 @@ public class  Perfil implements Serializable{
         this.correo = correo;
         this.contrasena = Contrasena;
         this.rol = rol;
-        preferencias = new boolean[6];
-        for (int i=0;i<preferencias.length;i++){
+        for (int i=0;i<this.preferencias.length;i++){
             this.preferencias[i]=false;
         }
     }
@@ -33,7 +32,9 @@ public class  Perfil implements Serializable{
         this.correo = "";
         this.contrasena = "";
         this.rol = false;
-        
+        for (int i=0;i<this.preferencias.length;i++){
+            this.preferencias[i]=false;
+        }
     }
     
     public int CalcularEdad(){
