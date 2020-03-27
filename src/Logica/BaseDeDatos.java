@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,22 +21,23 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class BaseDeDatos {
         
-    private static ArrayList<Perfil> perfiles;
-    private static int pos_u;
-    private static ArrayList<Elements> lista;
+    private ArrayList<Perfil> perfiles;
+    private int pos_u;
+    public ArrayList<Elements> lista;
+    public Estadisticas estad = new Estadisticas();
     
     public BaseDeDatos() throws InterruptedException, IOException{
-        
         Recuperar();
         MostrarPerfiles();
         IniciarSesion("","");
     }
     
-    public static void MostrarPerfiles(){
+    public void MostrarPerfiles(){
         for(int i=0;i<perfiles.size();i++){
             System.out.println(perfiles.get(i).correo);
             System.out.println(perfiles.get(i).contrasena);
@@ -44,7 +46,7 @@ public class BaseDeDatos {
         }
     }
     
-    public static void IniciarSesion(String correo,String contrasena) throws InterruptedException, IOException{
+    public void IniciarSesion(String correo,String contrasena) throws InterruptedException, IOException{
         GUI_inicio IS = new GUI_inicio(correo,contrasena);
         int posicion;
         do{
@@ -63,11 +65,13 @@ public class BaseDeDatos {
                         }
                     }
                     else{
+                        estad.estad_Errores[0]++;
                         JOptionPane.showMessageDialog(null , "La contraseña no coincide" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
                         IniciarSesion(IS.correo,"");
                     }
                 }
                 else{
+                    estad.estad_Errores[0]++;
                     JOptionPane.showMessageDialog(null , "El correo ingresado no existe" , "ERROR DE INGRESO" , JOptionPane.ERROR_MESSAGE);
                     IniciarSesion("","");
                 }
@@ -82,7 +86,7 @@ public class BaseDeDatos {
     }    
     
     //BUSCA LA POSOCION DEL PERFIL Q TENGA EL MISMO CORREO
-    public static int BuscarPorCorreo(String correo){
+    public int BuscarPorCorreo(String correo){
         int result=-1;
         for (int i =0;i<perfiles.size();i++){
             if(perfiles.get(i).correo.equals(correo)){
@@ -93,7 +97,7 @@ public class BaseDeDatos {
         return result;
     }
     
-    public static void Registrarse(String nombre,String apellido,String correo) throws InterruptedException, IOException{
+    public void Registrarse(String nombre,String apellido,String correo) throws InterruptedException, IOException{
         GUI_registrar r = new GUI_registrar(nombre,apellido,correo);
         int posicion;
         do{
@@ -102,6 +106,7 @@ public class BaseDeDatos {
         posicion = BuscarPorCorreo(r.correo);
         if(r.estado==1){
             if(r.correo.equals("") || r.contrasena_1.equals("") || r.contrasena_2.equals("") || r.nombre.equals("")){
+                estad.estad_Errores[1]++;
                 JOptionPane.showMessageDialog(null , "Faltan campos obligatorios" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
                 Registrarse(r.nombre,r.apellido,r.correo);
             }
@@ -109,19 +114,23 @@ public class BaseDeDatos {
                 if (posicion==-1){
                     boolean validar= ValidarFechas(r.dia_nacimiento,r.mes_nacimiento,r.anno_nacimiento);
                     if(validar==false){
+                        estad.estad_Errores[1]++;
                         JOptionPane.showMessageDialog(null , "La fecha ingresada no existe" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
                         Registrarse(r.nombre,r.apellido,r.correo);
                     }
                     if(r.contrasena_1.equals(r.contrasena_2)){
                         perfiles.add(new Usuario(r.nombre,OrganizarCalendar(r.dia_nacimiento,r.mes_nacimiento,r.anno_nacimiento),r.correo,r.contrasena_1));
+                        estad.estad_Generales[1]++;
                         Guardar();
                         IniciarSesion(r.correo,r.contrasena_1);
                     }else{
+                        estad.estad_Errores[1]++;
                         JOptionPane.showMessageDialog(null , "Las contraseñas no coinciden" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
                         Registrarse(r.nombre,r.apellido,r.correo);
                     }   
                 }
                 else{
+                    estad.estad_Errores[1]++;
                     JOptionPane.showMessageDialog(null , "El correo ingresado ya se encuentra registrado" , "ERROR DE REGISTRO" , JOptionPane.ERROR_MESSAGE);
                     IniciarSesion(r.correo,"");
                 }         
@@ -132,7 +141,7 @@ public class BaseDeDatos {
         }
     }
     
-    public static void InformacionC(Perfil p) throws InterruptedException, IOException{
+    public void InformacionC(Perfil p) throws InterruptedException, IOException{
         GUI_cliente c = new GUI_cliente(perfiles.get(pos_u));
         do{    
             do{
@@ -153,7 +162,7 @@ public class BaseDeDatos {
         }while(c.estado!=2);    
     }
     
-    public static void InformacionA(Perfil p) throws InterruptedException, IOException{
+    public void InformacionA(Perfil p) throws InterruptedException, IOException{
         GUI_administrador a = new GUI_administrador(perfiles.get(pos_u));
         do{
             Thread.sleep(100);
@@ -170,28 +179,37 @@ public class BaseDeDatos {
                 InformacionA(perfiles.get(pos_u));
                 break;
             case 3://VER ESTADISTICAS
-                GUI_VerEstadisticas ve = new GUI_VerEstadisticas();
+                RecuperarEstadisticas();
+                GUI_VerEstadisticas ve = new GUI_VerEstadisticas(estad.estad_Edades, estad.estad_Categorias, estad.estad_Errores, estad.estad_Generales);
                 InformacionA(perfiles.get(pos_u));
                 break;
             case 4://CERRAR SESION
                 IniciarSesion(a.correo,"");
                 break;
+            case 5://ENVIAR CORREOS
+                break;
+            case 6://RECOLECTAR ESTADISTICAS
+                estad.RecolectarEstadisticas(perfiles);
+                GuardarEstadisticas();
+                break;
         }
     }
     
-    public static void EliminarCuenta(String correo){
+    public void EliminarCuenta(String correo){
         int posicion = BuscarPorCorreo(correo);
         if (posicion==-1){
+            estad.estad_Errores[3]++;
             JOptionPane.showMessageDialog(null , "El correo "+correo+" no se encuentra en la base de datos." , "ELIMINAR USUARIO" , JOptionPane.ERROR_MESSAGE);
         }
         else{
             perfiles.remove(posicion);
+            estad.estad_Generales[2]++;
             JOptionPane.showMessageDialog(null , "La cuenta "+correo+" fue eliminada satisfactoriamente." , "ELIMINAR USUARIO" , JOptionPane.ERROR_MESSAGE);
             Guardar();
         }
     }
     
-    public static void CambiarContrasena(String ca) throws InterruptedException, IOException, IOException{
+    public void CambiarContrasena(String ca) throws InterruptedException, IOException, IOException{
         GUI_CambiarContrasena cc = new GUI_CambiarContrasena(ca);
         do{
             Thread.sleep(100);
@@ -204,17 +222,19 @@ public class BaseDeDatos {
                 IniciarSesion(perfiles.get(pos_u).correo,"");
             }
             else{
+                estad.estad_Errores[4]++;
                 JOptionPane.showMessageDialog(null , "Las contraseñas ingresadas no coinciden" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
                 CambiarContrasena(ca);
             }    
         }    
         else{
+            estad.estad_Errores[4]++;
             JOptionPane.showMessageDialog(null , "La contraseña anterior no coincide" , "ERROR DE AUTENTICACION" , JOptionPane.ERROR_MESSAGE);
             CambiarContrasena("");
         }    
     }
     
-    public static String GenerarNumeroAleatorio(){
+    public String GenerarNumeroAleatorio(){
         String cod="";
         for(int i=1;i<=5;i++){
             cod+=String.valueOf((int) (Math.random()*10));
@@ -222,8 +242,7 @@ public class BaseDeDatos {
         return cod;
     }
     
-    //UTILIZA VARIOS MÉTODOS DE ABAJO PARA Q NO QUEDE TAN LARGO EN UN SOLO LADO 
-    public static void RecuperarContrasena() throws InterruptedException, IOException{
+    public void RecuperarContrasena() throws InterruptedException, IOException{
         GUI_RecuperarContrasena rc = new GUI_RecuperarContrasena();
         do{
             Thread.sleep(100);
@@ -241,19 +260,21 @@ public class BaseDeDatos {
                     CambiarContrasena(perfiles.get(pos_u).contrasena);
                 }
                 else{
+                    estad.estad_Errores[2]++;
                     JOptionPane.showMessageDialog(null , "El código de verificacion no coincide" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
                     rc.estado=1;
                 }
             }while(!rc.codigo_verificacion.equals(codigo)); 
         }
         else{
+            estad.estad_Errores[2]++;
             JOptionPane.showMessageDialog(null , "El correo ingresado no existe en la base de datos" , "ERROR DE AUTENTICACIÓN" , JOptionPane.ERROR_MESSAGE);
             rc.dispose();
             RecuperarContrasena();
         }
     }
     
-    public static void EnviarCorreo(String correo,String mensaje, String asunto){
+    public void EnviarCorreo(String correo,String mensaje, String asunto){
         Properties propiedad = new Properties();
         propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
         propiedad.setProperty("mail.smtp.starttls.enable", "true");
@@ -275,6 +296,8 @@ public class BaseDeDatos {
             transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
             transporte.close();
             
+            estad.estad_Generales[0]++;
+            
             //JOptionPane.showMessageDialog(null, "Listo, revise su correo","PROCESO CULMINADO",JOptionPane.PLAIN_MESSAGE);
             
         } catch (MessagingException ex) {
@@ -282,7 +305,7 @@ public class BaseDeDatos {
         }
     }
     
-    public static void Guardar(){
+    public void Guardar(){
         String archivo = "Usuarios.txt";
         try{
             ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
@@ -295,7 +318,7 @@ public class BaseDeDatos {
         }   
     }
     
-    public static void Recuperar(){
+    public void Recuperar(){
         String archivo = "Usuarios.txt";
         perfiles = new ArrayList<Perfil>();
         try{
@@ -310,7 +333,7 @@ public class BaseDeDatos {
         }    
     }
 
-    public static boolean ValidarFechas(String d, String m, String a){
+    public boolean ValidarFechas(String d, String m, String a){
         boolean fecha=true;
         switch(m){
             case "Febrero":
@@ -360,7 +383,7 @@ public class BaseDeDatos {
         return fecha;
     }
     
-    public static Calendar OrganizarCalendar(String d, String m, String a){
+    public Calendar OrganizarCalendar(String d, String m, String a){
         Calendar fecha_nacimiento= new GregorianCalendar(2000,Calendar.JANUARY,1);
         switch(m){
             case "Enero":
@@ -401,6 +424,61 @@ public class BaseDeDatos {
                 break;    
         }
         return fecha_nacimiento;
+    }    
+    
+    public void GuardarEstadisticas(){
+        String archivo = "Estadisticas.txt";
+        try{
+            ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(archivo));
+            ob.writeObject(estad);
+            ob.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }   
     }
     
+    public void RecuperarEstadisticas(){
+        String archivo = "Estadisticas.txt";
+        estad = new Estadisticas();
+        try{
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(archivo));
+            estad = (Estadisticas) is.readObject(); 
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }    
+    }
+    
+    //CONVENCIONES DE ERRORES
+//    0=errores de Ingreso
+//    1=errores de Registro
+//    2=errores de RecuperarContrasena
+//    3=errores de EliminarCorreo
+//    4=errores de CambiarContrasena
+    
+    //CONVENCIONES DE EDADES
+//    0=primera infancia
+//    1=infancia
+//    2=adolescencia
+//    3=juventud
+//    4=adultez  
+//    5=persona mayor
+    
+    //CONVENCIONES DE CATEGORIAS
+//    0=celulares
+//    1=vehiculos
+//    2=deportes
+//    3=videojuegos
+//    4=computacion
+//    5=oficina
+    
+    //CONVENCIONES DE ESTADISTICAS GENEREALES
+//    0= correos enviados tanto para recuperar contraseña cm para los q tienen la info de ML
+//    1= usuarios registrados
+//    2= usuarios eliminados   
 }

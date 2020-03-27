@@ -20,8 +20,13 @@ public class GUI_administrador extends JFrame{
     public String correo;
     public int estado = 0;
     public String correo_eliminar;
+    //Estado 1 = Eliminar Usuario
     //Estado 2 = Scrapear
     //Estado 3 = Ver estadisticas
+    //Estado 4 = Salir
+    //Estado 5 = enviar correos
+    //Estado 6 = recolectar estadisticas
+    //Ver lista de usuarios 
     
     public GUI_administrador(Perfil p){
         correo=p.correo;
