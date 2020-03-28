@@ -7,7 +7,6 @@ import java.util.GregorianCalendar;
 // Autor Jhony Caro
 public class  Perfil implements Serializable{
     
-    // Atributos 
     public String nombre;
     public Calendar fecha_nacimiento;
     public String correo;

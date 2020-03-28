@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 
 public class Extractor {
  
-    public ArrayList<Elements> Lista = new ArrayList<Elements>();
+    public ArrayList<Elements> lista = new ArrayList<Elements>();
     
     public Extractor() throws IOException{
         //Extraer datos Smarphones
@@ -44,13 +44,13 @@ public class Extractor {
             Elements linksOficina = docOficina.select("a.item__info-title");
             System.out.println(titulosOficina.text()+"  $"+preciosOficina.text()+"  "+linksOficina.attr("abs:href"));
         }*/
-        
-        Lista.add(searchCelulares);
-        Lista.add(searchVehiculos);
-        Lista.add(searchDeportes);
-        Lista.add(searchVideojuegos);
-        Lista.add(searchComputacion);
-        Lista.add(searchOficina);
+       
+        lista.add(searchCelulares);
+        lista.add(searchVehiculos);
+        lista.add(searchDeportes);
+        lista.add(searchVideojuegos);
+        lista.add(searchComputacion);
+        lista.add(searchOficina);
     }
     
 }

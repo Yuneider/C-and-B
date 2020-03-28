@@ -1,5 +1,6 @@
 package INTERFAZ;
 
+import Logica.Estadisticas;
 import Logica.Perfil;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +20,7 @@ public class GUI_cliente extends JFrame{
     public String correo; 
     public int estado=0;
     public boolean[] preferencias = new boolean[7];
+    public Estadisticas estadisticas;
     
     private JPanel jp_info_p;
     private JCheckBox jcb_notificacion;
@@ -42,7 +44,8 @@ public class GUI_cliente extends JFrame{
     private JLabel lbl_fecha_nacimiento;
     private JLabel lbl_info_p;
 
-    public GUI_cliente(Perfil p){
+    public GUI_cliente(Perfil p,Estadisticas e){
+        estadisticas=e;
         correo=p.correo;
         preferencias=p.preferencias;
         //Creacion de colores
@@ -261,36 +264,42 @@ public class GUI_cliente extends JFrame{
     private void ValidarSeleccionS() {
            if(jcb_celulares.isSelected()){
                preferencias[0]=true;
+               estadisticas.estad_Categorias[0]++;
            }
            else{
                preferencias[0]=false;
            }
            if(jcb_vehiculos.isSelected()){
                preferencias[1]=true;
+               estadisticas.estad_Categorias[1]++;
            }
            else{
                preferencias[1]=false;
            }
            if(jcb_deportes.isSelected()){
                preferencias[2]=true;
+               estadisticas.estad_Categorias[2]++;
            }
            else{
                preferencias[2]=false;
            }
            if(jcb_videojuegos.isSelected()){
                preferencias[3]=true;
+               estadisticas.estad_Categorias[3]++;
            }
            else{
                preferencias[3]=false;
-           }
+            }
            if(jcb_computacion.isSelected()){
                preferencias[4]=true;
+               estadisticas.estad_Categorias[4]++;
            }
            else{
                preferencias[4]=false;
            }
            if(jcb_oficina.isSelected()){
                preferencias[5]=true;
+               estadisticas.estad_Categorias[5]++;
            }
            else{
                preferencias[5]=false;
@@ -305,21 +314,27 @@ public class GUI_cliente extends JFrame{
        private void ValidarSeleccionE() {
            if(preferencias[0]==true){
                jcb_celulares.doClick();
+               estadisticas.estad_Categorias[0]--;
            }
            if(preferencias[1]==true){
                jcb_vehiculos.doClick();
+               estadisticas.estad_Categorias[1]--;
            }
            if(preferencias[2]==true){
                jcb_deportes.doClick();
+               estadisticas.estad_Categorias[2]--;
            }
            if(preferencias[3]==true){
                jcb_videojuegos.doClick();
+               estadisticas.estad_Categorias[3]--;
            }
            if(preferencias[4]==true){
                jcb_computacion.doClick();
+               estadisticas.estad_Categorias[4]--;
            }
            if(preferencias[5]==true){
                jcb_oficina.doClick();
+               estadisticas.estad_Categorias[5]--;
            }
            if(preferencias[6]==true){
                jcb_notificacion.doClick();
