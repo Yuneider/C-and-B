@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
@@ -26,6 +27,8 @@ public class BaseDeDatos {
     private ArrayList<Perfil> perfiles;
     private int pos_u;
     public Estadisticas estadisticas;
+    public Extractor extrac;
+    public Estadisticas estad = new Estadisticas();
     
     public BaseDeDatos() throws InterruptedException, IOException{
         Recuperar();
@@ -174,7 +177,7 @@ public class BaseDeDatos {
                 InformacionA(perfiles.get(pos_u));
             break;
             case 2:
-                Extractor e = new Extractor();
+                extrac = new Extractor();
                 InformacionA(perfiles.get(pos_u));
             break;
             case 3:
@@ -190,7 +193,8 @@ public class BaseDeDatos {
                 IniciarSesion(a.correo,"");
             break;
             case 5:
-                
+                AcomodarEnviarPreferencias();
+                InformacionA(perfiles.get(pos_u));
             break;
         }
     }
@@ -457,4 +461,107 @@ public class BaseDeDatos {
         return fecha_nacimiento;
     }    
 
+        public void AcomodarEnviarPreferencias(){
+        for(int i=0;i<perfiles.size();i++){
+            String mensaje="";
+            String[] prefer = new String[ValidarNumeroPreferencias(perfiles.get(i))];
+            for(int ii=0;ii<6;ii++){
+                int aux2=0;
+                int aux=0;
+                ArrayList<String> nuevaLista = new ArrayList();
+                if(perfiles.get(i).preferencias[ii]){
+                    while(aux<ValidarNumeroPreferencias(perfiles.get(i))){
+                        Random r = new Random();
+                        int rand;
+                        switch(ii){
+                            case 0:
+                                rand = r.nextInt(extrac.TitulosCelulares.size());
+                                nuevaLista.add(extrac.TitulosCelulares.get(rand));
+                                nuevaLista.add(extrac.PreciosCelulares.get(rand));
+                                nuevaLista.add(extrac.LinksCelulares.get(rand));
+                                break;
+                            case 1:
+                                rand = r.nextInt(extrac.TitulosVehiculos.size());
+                                nuevaLista.add(extrac.TitulosVehiculos.get(rand));
+                                break;
+                            case 2:
+                                rand = r.nextInt(extrac.TitulosDeportes.size());
+                                nuevaLista.add(extrac.TitulosDeportes.get(rand));
+                                break;
+                            case 3:
+                                rand = r.nextInt(extrac.TitulosVideoJuegos.size());
+                                nuevaLista.add(extrac.TitulosVideoJuegos.get(rand));
+                                break;
+                            case 4:
+                                rand = r.nextInt(extrac.TitulosComputacion.size());
+                                nuevaLista.add(extrac.TitulosComputacion.get(rand));
+                                break;
+                            case 5:
+                                rand = r.nextInt(extrac.TitulosOficina.size());
+                                nuevaLista.add(extrac.TitulosOficina.get(rand));
+                                break;
+                        }
+                        aux++;
+                    }
+                    prefer[aux2]=GenerarMensaje(nuevaLista,ValidarNumeroPreferencias(perfiles.get(i)),ii);
+                    aux++;
+                }
+            }
+            EnviarCorreo(perfiles.get(i).correo,mensaje,"Información de sus preferencias");
+        }
+    }
+    
+    public String GenerarMensaje(ArrayList<String> l,int tam,int pref){
+        String mensaje="";
+        switch(pref){
+            case 0:
+                mensaje="CELULARES: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosCelulares.get(i)+"\n$"+extrac.PreciosCelulares.get(i)+"\n"+extrac.LinksCelulares.get(i)+"\n\n";
+                }
+                break;
+            case 1:
+                mensaje="VEHICULOS: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosVehiculos.get(i)+"\n$"+extrac.PreciosVehiculos.get(i)+"\n"+extrac.LinksVehiculos.get(i)+"\n\n";
+                }
+                break;
+            case 2:
+                mensaje="DEPORTES: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosDeportes.get(i)+"\n$"+extrac.PreciosDeportes.get(i)+"\n"+extrac.LinksDeportes.get(i)+"\n\n";
+                }
+                break;
+            case 3:
+                mensaje="VIDEOJUEGOS: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosVideoJuegos.get(i)+"\n$"+extrac.PreciosVideoJuegos.get(i)+"\n"+extrac.LinksVideoJuegos.get(i)+"\n\n";
+                }
+                break;
+            case 4:
+                mensaje="COMPUTACION: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosComputacion.get(i)+"\n$"+extrac.PreciosComputacion.get(i)+"\n"+extrac.LinksComputacion.get(i)+"\n\n";
+                }
+                break;
+            case 5:
+                mensaje="OFICINA: \n\n";
+                for(int i=0;i<l.size();i++){
+                    mensaje+=extrac.TitulosOficina.get(i)+"\n$"+extrac.PreciosOficina.get(i)+"\n"+extrac.LinksOficina.get(i)+"\n\n";
+                }
+                break;
+        }
+        return mensaje;
+    }
+    
+    public int ValidarNumeroPreferencias(Perfil p){
+        int result=0;
+        for(int i=0;i<6;i++){
+            if(p.preferencias[i])
+                result++;
+        }        
+        return result;
+    }
+    
+    
 }
