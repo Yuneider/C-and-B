@@ -97,9 +97,6 @@ public class Estadisticas implements Serializable{
         }
         fecha_actual+=(actualizacion.get(Calendar.MONTH)+1)+"/";
         fecha_actual+=actualizacion.get(Calendar.YEAR)+" - ";
-        if(actualizacion.get(Calendar.HOUR)<10){
-            fecha_actual+="0";
-        }
         fecha_actual+=actualizacion.get(Calendar.HOUR_OF_DAY)+":";
         if(actualizacion.get(Calendar.MINUTE)<10){
             fecha_actual+="0";
