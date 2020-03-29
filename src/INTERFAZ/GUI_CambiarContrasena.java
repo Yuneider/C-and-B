@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 public class GUI_CambiarContrasena extends JFrame {
 
@@ -19,6 +18,7 @@ public class GUI_CambiarContrasena extends JFrame {
     private JLabel lbl_titulo2;
     private JLabel lbl_titulo3;
     private JButton btn_cambiar;
+    private JButton btn_cancelar;
     private JPasswordField jpf_contrasena_a;
     private JPasswordField jpf_contrasena1;
     private JPasswordField jpf_contrasena2;
@@ -42,6 +42,7 @@ public class GUI_CambiarContrasena extends JFrame {
         this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(550,350);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -58,6 +59,7 @@ public class GUI_CambiarContrasena extends JFrame {
         lbl_titulo2 = new JLabel("&");
         lbl_titulo3 = new JLabel("BUY");
         btn_cambiar = new JButton("Cambiar Contraseña");
+        btn_cancelar = new JButton("Cancelar");
         jpf_contrasena_a = new JPasswordField(ca);
         jpf_contrasena1 = new JPasswordField();
         jpf_contrasena2 = new JPasswordField();
@@ -76,6 +78,7 @@ public class GUI_CambiarContrasena extends JFrame {
         jpf_contrasena1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jpf_contrasena2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         btn_cambiar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        btn_cancelar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
         lbl_titulo1.setBounds(180, 30, 120, 30);
@@ -84,7 +87,8 @@ public class GUI_CambiarContrasena extends JFrame {
         lbl_contrasena_a.setBounds(20, 100, 200, 30);
         lbl_contrasena1.setBounds(20, 150, 200, 30);
         lbl_contrasena2.setBounds(20, 200, 200, 30);
-        btn_cambiar.setBounds(120, 250, 250, 30);
+        btn_cambiar.setBounds(60, 250, 230, 30);
+        btn_cancelar.setBounds(320, 250, 120, 30);
         jpf_contrasena_a.setBounds(240, 100, 250, 25);
         jpf_contrasena1.setBounds(240, 150, 250, 25);
         jpf_contrasena2.setBounds(240, 200, 250, 25);
@@ -100,6 +104,7 @@ public class GUI_CambiarContrasena extends JFrame {
         jpf_contrasena1.setBackground(color_grisc);
         jpf_contrasena2.setBackground(color_grisc);
         btn_cambiar.setBackground(color_grisc);
+        btn_cancelar.setBackground(color_grisc);
         
         //Agregar elementos a la ventana
         this.add(lbl_titulo1);
@@ -109,12 +114,14 @@ public class GUI_CambiarContrasena extends JFrame {
         this.add(lbl_contrasena1);
         this.add(lbl_contrasena2);
         this.add(btn_cambiar);
+        this.add(btn_cancelar);
         this.add(lbl_logo);
         this.add(jpf_contrasena_a);
         this.add(jpf_contrasena1);
         this.add(jpf_contrasena2);
         
         //Acciones botones
+        btn_cancelar.addActionListener(cancelar);
         btn_cambiar.addActionListener(cambiar);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,5 +136,11 @@ public class GUI_CambiarContrasena extends JFrame {
             dispose();
         }
     };
-    
+    ActionListener cancelar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            estado=2;
+            dispose();
+        }
+    };
+        
 }

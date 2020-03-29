@@ -1,5 +1,6 @@
 package INTERFAZ;
 
+import Logica.Estadisticas;
 import Logica.Perfil;
 import java.awt.Color;
 import java.awt.Font;
@@ -30,14 +31,16 @@ public class GUI_administrador extends JFrame{
     private JLabel lbl_titulo3;
     private JLabel lbl_eliminar;
     private JLabel lbl_nombre;
+    private JLabel lbl_actualizacion;
     private JTextField jtf_eliminar;
     
     public String correo;
     public int estado = 0;
     public String correo_eliminar;
     
-    public GUI_administrador(Perfil p){
+    public GUI_administrador(Perfil p,int e,Estadisticas es){
         correo=p.correo;
+        estado=e;
         
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
@@ -50,6 +53,7 @@ public class GUI_administrador extends JFrame{
         this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(700,600);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -77,7 +81,8 @@ public class GUI_administrador extends JFrame{
         lbl_titulo3 = new JLabel("BUY");
         lbl_eliminar = new JLabel("Eliminar cuenta de usuario");
         lbl_nombre = new JLabel("Administrador: "+p.nombre);
-        jtf_eliminar = new JTextField();
+        lbl_actualizacion = new JLabel("<html>Ultimo mensaje enviado: "+es.EscribirFecha()+"<html>");
+        jtf_eliminar = new JTextField("ejemplo@correo.com");
         
         //Fuente de los elementos
         btn_eliminar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
@@ -93,6 +98,7 @@ public class GUI_administrador extends JFrame{
         lbl_titulo3.setFont(new Font("Berlin Sans FB",Font.PLAIN,26));
         lbl_eliminar.setFont(new Font("Berlin Sans FB",Font.PLAIN,20));
         lbl_nombre.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        lbl_actualizacion.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         jtf_eliminar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
@@ -106,6 +112,7 @@ public class GUI_administrador extends JFrame{
         btn_salir.setBounds(500,480,150,50);
         jp_eliminar.setBounds(350, 180, 300, 150);
         lbl_nombre.setBounds(50, 90, 400, 30);
+        lbl_actualizacion.setBounds(290, 440, 200, 80);
         lbl_eliminar.setBounds(40, 10, 240, 30);
         lbl_titulo1.setBounds(270, 30, 120, 30);
         lbl_titulo2.setBounds(400, 30, 20, 30);
@@ -120,19 +127,22 @@ public class GUI_administrador extends JFrame{
         btn_info.setBackground(color_grisc);
         btn_si.setBackground(color_grisc);
         btn_no.setBackground(color_grisc);
+        btn_salir.setForeground(color_rojo);
+        btn_salir.setBackground(color_grisc);
         lbl_nombre.setForeground(Color.WHITE);
         lbl_titulo1.setForeground(color_azul);
         lbl_titulo2.setForeground(color_grisc);
         lbl_titulo3.setForeground(color_rojo);
         lbl_eliminar.setForeground(Color.WHITE);
+        lbl_actualizacion.setForeground(Color.WHITE);
         jp_eliminar.setBackground(color_grism);
         jtf_eliminar.setBackground(color_grisc);
-        btn_salir.setForeground(color_rojo);
-        btn_salir.setBackground(color_grisc);
         
         //Visibilidad componentes
         btn_si.setVisible(false);
         btn_no.setVisible(false);
+        ValidarEstado();
+        estado=0;
         
         //Agregar elementos a la ventana
         jp_eliminar.add(jtf_eliminar);
@@ -148,6 +158,7 @@ public class GUI_administrador extends JFrame{
         this.add(btn_enviar);
         this.add(btn_info);
         this.add(lbl_nombre);
+        this.add(lbl_actualizacion);
         this.add(lbl_titulo1);
         this.add(lbl_titulo2);
         this.add(lbl_titulo3);
@@ -158,16 +169,32 @@ public class GUI_administrador extends JFrame{
         btn_salir.addActionListener(salir);
         btn_eliminar.addActionListener(eliminar);
         btn_estadisticas.addActionListener(mostrar);
+        btn_escarbar.addActionListener(escarbar);
+        btn_enviar.addActionListener(enviar);
+        btn_info.addActionListener(ver);
         
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }    
 
-    
     ActionListener mostrar = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {
             dispose();
             estado=3;
+        }
+    };
+    
+    ActionListener ver = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            dispose();
+            estado=6;
+        }
+    };
+    
+    ActionListener enviar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            dispose();
+            estado=5;
         }
     };
     ActionListener salir = new ActionListener() {
@@ -204,5 +231,22 @@ public class GUI_administrador extends JFrame{
             estado=1;
         }
     };
+    ActionListener escarbar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            dispose();
+            estado=2;
+        }
+    };
+    private void ValidarEstado(){
+        if(estado==2){
+            btn_enviar.setEnabled(true);
+            btn_escarbar.setEnabled(false);
+        }
+            
+        else{
+            btn_escarbar.setEnabled(true);
+            btn_enviar.setEnabled(false);
+        }
+    }
     
 }

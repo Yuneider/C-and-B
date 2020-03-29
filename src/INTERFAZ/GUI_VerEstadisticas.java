@@ -72,7 +72,7 @@ public class GUI_VerEstadisticas extends JFrame {
         lbl_titulo3 = new JLabel("BUY");
         lbl_estadisticas = new JLabel("ESTADISTICAS DEL ADMINISTRADOR");
         lbl_categorias = new JLabel("Categorias");
-        lbl_errores = new JLabel("Errores");
+        lbl_errores = new JLabel("Errores al");
         lbl_generales = new JLabel("Otros datos");
         lbl_edades = new JLabel("Edades");
         btn_volver = new JButton("Volver al perfil");
@@ -165,67 +165,67 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setColor(new Color(170,216,196));
             g.fillArc(45, 380, 165, 165, 0, grados_cel);
-            g.fillRect(260, 400, 15, 15);
+            g.fillRect(240, 400, 15, 15);
 
             g.setColor(new Color(89,193,151));
             g.fillArc(45, 380, 165, 165, grados_cel, grados_veh);
-            g.fillRect(260, 420, 15, 15);
+            g.fillRect(240, 420, 15, 15);
 
             g.setColor(new Color(31,180,83));
             g.fillArc(45, 380, 165, 165, grados_cel+grados_veh,grados_dep);
-            g.fillRect(260, 440, 15, 15);
+            g.fillRect(240, 440, 15, 15);
 
             g.setColor(new Color(5,133,88));
             g.fillArc(45, 380, 165, 165, grados_cel+grados_veh+grados_dep,grados_vid);
-            g.fillRect(260, 460, 15, 15);
+            g.fillRect(240, 460, 15, 15);
 
             g.setColor(new Color(20,100,46));
             g.fillArc(45, 380, 165, 165, grados_cel+grados_veh+grados_dep+grados_vid,grados_com);
-            g.fillRect(260, 480, 15, 15);
+            g.fillRect(240, 480, 15, 15);
 
             g.setColor(new Color(17,47,24));
             g.fillArc(45, 380, 165, 165, grados_cel+grados_veh+grados_dep+grados_vid+grados_com,grados_ofi);
-            g.fillRect(260, 500, 15, 15);
+            g.fillRect(240, 500, 15, 15);
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Celulares", 280, 412);
-            g.drawString("Vehiculos", 280, 432);
-            g.drawString("Deportes", 280, 452);
-            g.drawString("Video Juegos", 280, 472);
-            g.drawString("Computacion ", 280, 492);
-            g.drawString("Oficina", 280, 512);
+            g.drawString("Celulares "+int_1, 260, 412);
+            g.drawString("Vehiculos "+int_2, 260, 432);
+            g.drawString("Deportes "+int_3, 260, 452);
+            g.drawString("Video Juegos "+int_4, 260, 472);
+            g.drawString("Computacion "+int_5, 260, 492);
+            g.drawString("Oficina "+int_6, 260, 512);
         }
         else{
             g.setColor(new Color(166,166,166));
             g.fillArc(45, 380, 165, 165, 0, 360);
             
             g.setColor(new Color(170,216,196));
-            g.fillRect(260, 400, 15, 15);
+            g.fillRect(240, 400, 15, 15);
 
             g.setColor(new Color(32,177,128));
-            g.fillRect(260, 420, 15, 15);
+            g.fillRect(240, 420, 15, 15);
 
             g.setColor(new Color(31,180,83));
-            g.fillRect(260, 440, 15, 15);
+            g.fillRect(240, 440, 15, 15);
 
             g.setColor(new Color(5,133,88));
-            g.fillRect(260, 460, 15, 15);
+            g.fillRect(240, 460, 15, 15);
 
             g.setColor(new Color(20,100,46));
-            g.fillRect(260, 480, 15, 15);
+            g.fillRect(240, 480, 15, 15);
 
             g.setColor(new Color(17,47,24));
-            g.fillRect(260, 500, 15, 15);
+            g.fillRect(240, 500, 15, 15);
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Celulares", 280, 412);
-            g.drawString("Vehiculos", 280, 432);
-            g.drawString("Deportes", 280, 452);
-            g.drawString("Video Juegos", 280, 472);
-            g.drawString("Computacion ", 280, 492);
-            g.drawString("Oficina", 280, 512);
+            g.drawString("Celulares "+int_1, 260, 412);
+            g.drawString("Vehiculos "+int_2, 260, 432);
+            g.drawString("Deportes "+int_3, 260, 452);
+            g.drawString("Video Juegos "+int_4, 260, 472);
+            g.drawString("Computacion "+int_5, 260, 492);
+            g.drawString("Oficina "+int_6, 260, 512);
         }
         //GRAFICA EDADES
         int_1 = estad.estad_Edades[0];
@@ -264,11 +264,11 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,14));
             g.setColor(Color.white);
-            g.drawString("Infancia", 230, 212);
-            g.drawString("Adolescencia", 230, 232);
-            g.drawString("Juventud", 230, 252);
-            g.drawString("Adultez", 230, 272);
-            g.drawString("Adulto Mayor", 230, 292);
+            g.drawString("Infancia "+int_1, 230, 212);
+            g.drawString("Adolescencia "+int_2, 230, 232);
+            g.drawString("Juventud "+int_3, 230, 252);
+            g.drawString("Adultez "+int_4, 230, 272);
+            g.drawString("Adulto Mayor "+int_5, 230, 292);
         }
         else{
             g.setColor(new Color(166,166,166));
@@ -291,11 +291,11 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,14));
             g.setColor(Color.white);
-            g.drawString("Infancia", 230, 212);
-            g.drawString("Adolescencia", 230, 232);
-            g.drawString("Juventud", 230, 252);
-            g.drawString("Adultez", 230, 272);
-            g.drawString("Adulto Mayor", 230, 292);
+            g.drawString("Infancia "+int_1, 230, 212);
+            g.drawString("Adolescencia "+int_2, 230, 232);
+            g.drawString("Juventud "+int_3, 230, 252);
+            g.drawString("Adultez "+int_4, 230, 272);
+            g.drawString("Adulto Mayor "+int_5, 230, 292);
         }
         //GRAFICA ERRORES
         int_1 = estad.estad_Errores[0];
@@ -334,11 +334,11 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Al ingresar", 620, 202);
-            g.drawString("Al registrarse", 620, 222);
-            g.drawString("Al reestablecer cuenta", 620, 242);
-            g.drawString("Al eliminar cuenta", 620, 262);
-            g.drawString("Al cambiar contraseña", 620, 282);
+            g.drawString("Ingresar "+int_1, 620, 202);
+            g.drawString("Registrarse "+int_2, 620, 222);
+            g.drawString("Reestablecer cuenta "+int_3, 620, 242);
+            g.drawString("Eliminar cuenta "+int_4, 620, 262);
+            g.drawString("Cambiar contraseña "+int_5, 620, 282);
         }
         else{
             g.setColor(new Color(166,166,166));
@@ -361,11 +361,11 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Al ingresar", 620, 202);
-            g.drawString("Al registrarse", 620, 222);
-            g.drawString("Al reestablecer cuenta", 620, 242);
-            g.drawString("Al eliminar cuenta", 620, 262);
-            g.drawString("Al cambiar contraseña", 620, 282);
+            g.drawString("Ingresar "+int_1, 620, 202);
+            g.drawString("Registrarse "+int_2, 620, 222);
+            g.drawString("Reestablecer cuenta "+int_3, 620, 242);
+            g.drawString("Eliminar cuenta "+int_4, 620, 262);
+            g.drawString("Cambiar contraseña "+int_5, 620, 282);
         }
         //GRAFICA DATOS GENERALES
         int_1 = estad.estad_Generales[0];
@@ -391,9 +391,9 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Correos enviados", 620, 422);
-            g.drawString("Usuarios registrados", 620, 442);
-            g.drawString("Usuarios eliminados", 620, 462);
+            g.drawString("Correos enviados "+int_1, 620, 422);
+            g.drawString("Usuarios activos "+int_2, 620, 442);
+            g.drawString("Usuarios eliminados "+int_3, 620, 462);
         }
         else{
             g.setColor(new Color(166,166,166));
@@ -410,9 +410,9 @@ public class GUI_VerEstadisticas extends JFrame {
 
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
-            g.drawString("Correos enviados", 620, 422);
-            g.drawString("Usuarios registrados", 620, 442);
-            g.drawString("Usuarios eliminados", 620, 462);
+            g.drawString("Correos enviados "+int_1, 620, 422);
+            g.drawString("Usuarios activos "+int_2, 620, 442);
+            g.drawString("Usuarios eliminados "+int_3, 620, 462);
         }
         
     }

@@ -28,6 +28,29 @@ public class GUI_registrar extends JFrame{
     public String anno_nacimiento;
     public int estado=0;  
     
+    private JLabel lbl_titulo1;
+    private JLabel lbl_titulo2;
+    private JLabel lbl_titulo3;
+    private JLabel lbl_mensaje;        
+    private JLabel lbl_nombre;
+    private JLabel lbl_apellido;
+    private JLabel lbl_contrasena;
+    private JLabel lbl_correo;
+    private JLabel lbl_confirmacion1;
+    private JLabel lbl_confirmacion2;
+    private JLabel lbl_fecha1;
+    private JLabel lbl_fecha2;
+    private JTextField jtf_nombre;
+    private JTextField jtf_apellido;
+    private JTextField jtf_correo;
+    private JPasswordField pwf1;
+    private JPasswordField pwf2;
+    private JButton btn_guardar;
+    private JButton btn_cancelar;
+    private JComboBox jcb_dia;
+    private JComboBox jcb_mes;
+    private JComboBox jcb_anno;
+        
     public GUI_registrar(String n, String a, String c){
         //Creacion de colores
         Color color_griso=new Color(49,49,49);
@@ -40,6 +63,7 @@ public class GUI_registrar extends JFrame{
         this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(550,600);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -52,28 +76,28 @@ public class GUI_registrar extends JFrame{
         lbl_logo.repaint();
         
         //Crear elementos de la ventana
-        JLabel lbl_titulo1 = new JLabel("COMPARE");
-        JLabel lbl_titulo2 = new JLabel("&");
-        JLabel lbl_titulo3 = new JLabel("BUY");
-        JLabel lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicacion pensada para personas ocupadas, no hay necesidad de que busques en diversas paginas web algun producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
-        JLabel lbl_nombre = new JLabel("Nombres: *");
-        JLabel lbl_apellido = new JLabel("Apellidos: ");
-        JLabel lbl_contrasena = new JLabel("Contraseña: *");
-        JLabel lbl_correo = new JLabel("Correo: *");
-        JLabel lbl_confirmacion1 = new JLabel("Confirmacion  *");
-        JLabel lbl_confirmacion2 = new JLabel("Contraseña: ");
-        JLabel lbl_fecha1 = new JLabel("Fecha de");
-        JLabel lbl_fecha2 = new JLabel("Nacimiento: ");
-        JTextField jtf_nombre = new JTextField(n);
-        JTextField jtf_apellido = new JTextField(a);
-        JTextField jtf_correo = new JTextField(c);
-        JPasswordField pwf1 = new JPasswordField();
-        JPasswordField pwf2 = new JPasswordField();
-        JButton btn_guardar = new JButton("Guardar Registro");
-        JButton btn_cancelar = new JButton("Cancelar");
-        JComboBox jcb_dia = new JComboBox<>();
-        JComboBox jcb_mes = new JComboBox<>();
-        JComboBox jcb_anno = new JComboBox<>();
+        lbl_titulo1 = new JLabel("COMPARE");
+        lbl_titulo2 = new JLabel("&");
+        lbl_titulo3 = new JLabel("BUY");
+        lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicacion pensada para personas ocupadas, no hay necesidad de que busques en diversas paginas web algun producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
+        lbl_nombre = new JLabel("Nombres: *");
+        lbl_apellido = new JLabel("Apellidos: ");
+        lbl_contrasena = new JLabel("Contraseña: *");
+        lbl_correo = new JLabel("Correo: *");
+        lbl_confirmacion1 = new JLabel("Confirmacion  *");
+        lbl_confirmacion2 = new JLabel("Contraseña: ");
+        lbl_fecha1 = new JLabel("Fecha de");
+        lbl_fecha2 = new JLabel("Nacimiento: ");
+        jtf_nombre = new JTextField(n);
+        jtf_apellido = new JTextField(a);
+        jtf_correo = new JTextField(c);
+        pwf1 = new JPasswordField();
+        pwf2 = new JPasswordField();
+        btn_guardar = new JButton("Guardar Registro");
+        btn_cancelar = new JButton("Cancelar");
+        jcb_dia = new JComboBox<>();
+        jcb_mes = new JComboBox<>();
+        jcb_anno = new JComboBox<>();
         
         //Edicion de listas desplegables                
         jcb_dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"}));
@@ -182,21 +206,6 @@ public class GUI_registrar extends JFrame{
         this.add(jcb_mes);
         this.add(jcb_anno);
         
-        ActionListener guardar = new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {    
-                nombre=jtf_nombre.getText();
-                apellido=jtf_apellido.getText();
-                correo=jtf_correo.getText();
-                contrasena_1=pwf1.getText();
-                contrasena_2=pwf2.getText();
-                dia_nacimiento=(String)jcb_dia.getSelectedItem();
-                mes_nacimiento=(String)jcb_mes.getSelectedItem();
-                anno_nacimiento=(String)jcb_anno.getSelectedItem();
-                estado=1;
-                dispose();
-            }
-        };
-        
         btn_cancelar.addActionListener(cancelar);
         btn_guardar.addActionListener(guardar);
         this.setVisible(true);
@@ -207,6 +216,21 @@ public class GUI_registrar extends JFrame{
     ActionListener cancelar = new ActionListener() {
         public void actionPerformed(ActionEvent ae) {    
             estado=2;
+            dispose();
+        }
+    };
+    
+    ActionListener guardar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {    
+            nombre=jtf_nombre.getText();
+            apellido=jtf_apellido.getText();
+            correo=jtf_correo.getText();
+            contrasena_1=pwf1.getText();
+            contrasena_2=pwf2.getText();
+            dia_nacimiento=(String)jcb_dia.getSelectedItem();
+            mes_nacimiento=(String)jcb_mes.getSelectedItem();
+            anno_nacimiento=(String)jcb_anno.getSelectedItem();
+            estado=1;
             dispose();
         }
     };

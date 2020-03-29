@@ -18,6 +18,7 @@ public class GUI_RecuperarContrasena extends JFrame {
     private JLabel lbl_titulo2;
     private JLabel lbl_titulo3;
     private JButton btn_enviar;
+    private JButton btn_cancelar;
     private JTextField jtf;
     private JLabel lbl_correo;
     private JLabel lbl_mensaje;
@@ -38,6 +39,7 @@ public class GUI_RecuperarContrasena extends JFrame {
         this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(500,300);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -54,6 +56,7 @@ public class GUI_RecuperarContrasena extends JFrame {
         lbl_titulo2 = new JLabel("&");
         lbl_titulo3 = new JLabel("BUY");
         btn_enviar = new JButton("Enviar correo electronico");
+        btn_cancelar = new JButton("Cancelar");
         btn_validar = new JButton("Validar codigo");
         jtf = new JTextField();
         lbl_correo = new JLabel("Correo:");
@@ -68,6 +71,7 @@ public class GUI_RecuperarContrasena extends JFrame {
         jtf.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         btn_enviar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         btn_validar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        btn_cancelar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
         lbl_titulo1.setBounds(180, 30, 120, 30);
@@ -75,7 +79,8 @@ public class GUI_RecuperarContrasena extends JFrame {
         lbl_titulo3.setBounds(310, 30, 50, 30);
         lbl_correo.setBounds(30, 150, 150, 30);
         lbl_mensaje.setBounds(50, 60, 400, 100);
-        btn_enviar.setBounds(120, 200, 250, 30);
+        btn_enviar.setBounds(50, 200, 230, 30);
+        btn_cancelar.setBounds(310, 200, 120, 30);
         btn_validar.setBounds(120, 200, 250, 30);
         jtf.setBounds(130, 150, 280, 25);
         
@@ -88,6 +93,7 @@ public class GUI_RecuperarContrasena extends JFrame {
         jtf.setBackground(color_grisc);
         btn_enviar.setBackground(color_grisc);
         btn_validar.setBackground(color_grisc);
+        btn_cancelar.setBackground(color_grisc);
         
         btn_validar.setVisible(false);
         
@@ -99,12 +105,14 @@ public class GUI_RecuperarContrasena extends JFrame {
         this.add(lbl_mensaje);
         this.add(btn_enviar);
         this.add(btn_validar);
+        this.add(btn_cancelar);
         this.add(lbl_logo);
         this.add(jtf);
         
         //Acciones botones
         btn_enviar.addActionListener(enviar);
         btn_validar.addActionListener(validar);
+        btn_cancelar.addActionListener(cancelar);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
@@ -120,6 +128,7 @@ public class GUI_RecuperarContrasena extends JFrame {
             jtf.setText("");
             btn_validar.setVisible(true);
             btn_enviar.setVisible(false);
+            btn_cancelar.setVisible(false);
         }
     };
     ActionListener validar = new ActionListener() {
@@ -128,5 +137,10 @@ public class GUI_RecuperarContrasena extends JFrame {
             estado=2;
         }
     };
-    
+    ActionListener cancelar = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            estado=3;
+            dispose();
+        }
+    };    
 }

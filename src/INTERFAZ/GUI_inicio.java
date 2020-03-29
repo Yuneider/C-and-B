@@ -41,6 +41,7 @@ public class GUI_inicio extends JFrame{
         this.setTitle("C&B-App");
         this.setLayout(null);
         this.setSize(500,300);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(color_griso);
         
@@ -58,7 +59,7 @@ public class GUI_inicio extends JFrame{
         lbl_titulo3 = new JLabel("BUY");
         btn_login = new JButton("Ingresar");
         btn_registrar = new JButton("Registrarme");
-        btn_recuperar = new JButton("¿Olvidaste la contraseña?");
+        btn_recuperar = new JButton("Olvide mi contraseña");
         btn_recuperar.setBorder(null);
         pwf = new JPasswordField(p);
         jtf_usuario = new JTextField(c);
