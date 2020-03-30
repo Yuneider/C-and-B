@@ -222,7 +222,7 @@ public class BaseDeDatos {
             if(cc.contrasena_a.equals(perfiles.get(pos_u).contrasena)){
                 if(cc.contrasena1.equals(cc.contrasena2)){
                     perfiles.get(pos_u).contrasena=cc.contrasena1;
-                    JOptionPane.showMessageDialog(null , "La contraseña se modifico correctamente" , "CAMBIO DE CONTRASEÑA" , JOptionPane.PLAIN_MESSAGE);   
+                    JOptionPane.showMessageDialog(null , "La contraseña se modificó correctamente" , "CAMBIO DE CONTRASEÑA" , JOptionPane.PLAIN_MESSAGE);   
                     Guardar();
                     IniciarSesion(perfiles.get(pos_u).correo,"");
                 }
@@ -268,7 +268,7 @@ public class BaseDeDatos {
                         Thread.sleep(100);
                     }while(rc.estado==1);
                     if (perfiles.get(pos_u).rol==true){
-                        JOptionPane.showMessageDialog(null , "Por la seguridad de C&B los Administradores\n no pueden reestablecer la contraseña" , "ERROR" , JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null , "Por la seguridad de C&B los Administradores\n no pueden restablecer la contraseña" , "ERROR" , JOptionPane.ERROR_MESSAGE);
                         rc.dispose();
                         IniciarSesion(rc.correo,"");
                     }
@@ -280,7 +280,7 @@ public class BaseDeDatos {
                         else{
                             estadisticas.estad_Errores[2]++;
                             Guardar();
-                            JOptionPane.showMessageDialog(null , "El código de verificacion no coincide" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null , "El código de verificación no coincide" , "ERROR DE VERIFICACIÓN" , JOptionPane.ERROR_MESSAGE);
                             rc.estado=1;
                         }
                     }
@@ -490,7 +490,7 @@ public class BaseDeDatos {
                     }
                 }
                 if(perfiles.get(i).preferencias[1]==true){
-                    mensajeF+="\n\nVehiculos:\n";
+                    mensajeF+="\n\nVehículos:\n";
                     for (int j=0;j<cant;j++){
                         rand = extrac.NumeroRandom(extrac.vehiculos.size());
                         mensajeF+="\n"+(j+1)+") "+extrac.vehiculos.get(rand);
@@ -524,7 +524,7 @@ public class BaseDeDatos {
                         mensajeF+="\n"+(j+1)+") "+extrac.oficina.get(rand);
                     }
                 }                    
-                mensajeF+="\n\nCOMPARE & BUY\n\n\nSi deseas dejar de recibir notificaciones ingresa a la App y deshabilita la opcion de \"Recibir notificaciones\", Gracias.";
+                mensajeF+="\n\nCOMPARE & BUY\n\n\nSi deseas dejar de recibir notificaciones ingresa a la App y deshabilita la opción de \"Recibir notificaciones\", Gracias.";
                 EnviarCorreo(perfiles.get(i).correo,mensajeF,"C&B-Notificacion de productos de interes");
                 estadisticas.estad_Generales[0]++;
             }
@@ -562,7 +562,8 @@ public class BaseDeDatos {
         }
         return total;
     }
-        public void MostrarPerfiles(){
+        
+    public void MostrarPerfiles(){
         for(int i=2;i<perfiles.size();i++){
             System.out.println("Correo: "+perfiles.get(i).correo);
             System.out.println("Contraseña: "+perfiles.get(i).contrasena);

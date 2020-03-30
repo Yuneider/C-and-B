@@ -29,7 +29,7 @@ public class GUI_RecuperarContrasena extends JFrame {
     public String codigo_verificacion;
     
     public GUI_RecuperarContrasena(){
-            //Creacion de colores
+        //Creacion de colores
         Color color_griso=new Color(49,49,49);
         Color color_grisc=new Color(166,166,166);
         Color color_rojo=new Color(180,8,8);
@@ -55,12 +55,12 @@ public class GUI_RecuperarContrasena extends JFrame {
         lbl_titulo1 = new JLabel("COMPARE");
         lbl_titulo2 = new JLabel("&");
         lbl_titulo3 = new JLabel("BUY");
-        btn_enviar = new JButton("Enviar correo electronico");
+        btn_enviar = new JButton("Enviar correo electrónico");
         btn_cancelar = new JButton("Cancelar");
-        btn_validar = new JButton("Validar codigo");
+        btn_validar = new JButton("Validar código");
         jtf = new JTextField();
         lbl_correo = new JLabel("Correo:");
-        lbl_mensaje = new JLabel("<html>Se le enviara un email con un codigo de verificacion para que pueda restablecer su cuenta.<html>");
+        lbl_mensaje = new JLabel("<html>Se le enviará un email con un código de verificación para que pueda restablecer su cuenta.<html>");
         
         //Fuente de los elementos
         lbl_titulo1.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
@@ -121,8 +121,8 @@ public class GUI_RecuperarContrasena extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             correo=jtf.getText();
             estado=1;
-            lbl_mensaje.setText("<html>Por favor ingrese el codigo de verificacion enviado al correo: "+correo+"<html>");
-            lbl_correo.setText("Codigo de verificacion: ");
+            lbl_mensaje.setText("<html>Por favor ingrese el código de verificacóon enviado al correo: "+correo+"<html>");
+            lbl_correo.setText("Codigo de verificación: ");
             lbl_correo.setBounds(30, 150, 250, 30);
             jtf.setBounds(220, 150, 150, 25);
             jtf.setText("");

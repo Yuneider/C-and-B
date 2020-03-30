@@ -190,10 +190,10 @@ public class GUI_VerEstadisticas extends JFrame {
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
             g.drawString("Celulares "+int_1, 260, 412);
-            g.drawString("Vehiculos "+int_2, 260, 432);
+            g.drawString("Vehículos "+int_2, 260, 432);
             g.drawString("Deportes "+int_3, 260, 452);
             g.drawString("Video Juegos "+int_4, 260, 472);
-            g.drawString("Computacion "+int_5, 260, 492);
+            g.drawString("Computación "+int_5, 260, 492);
             g.drawString("Oficina "+int_6, 260, 512);
         }
         else{
@@ -221,10 +221,10 @@ public class GUI_VerEstadisticas extends JFrame {
             g.setFont(new Font("Berlin Sans FB",Font.PLAIN,15));
             g.setColor(Color.white);
             g.drawString("Celulares "+int_1, 260, 412);
-            g.drawString("Vehiculos "+int_2, 260, 432);
+            g.drawString("Vehículos "+int_2, 260, 432);
             g.drawString("Deportes "+int_3, 260, 452);
             g.drawString("Video Juegos "+int_4, 260, 472);
-            g.drawString("Computacion "+int_5, 260, 492);
+            g.drawString("Computación "+int_5, 260, 492);
             g.drawString("Oficina "+int_6, 260, 512);
         }
         //GRAFICA EDADES
@@ -336,7 +336,7 @@ public class GUI_VerEstadisticas extends JFrame {
             g.setColor(Color.white);
             g.drawString("Ingresar "+int_1, 620, 202);
             g.drawString("Registrarse "+int_2, 620, 222);
-            g.drawString("Reestablecer cuenta "+int_3, 620, 242);
+            g.drawString("Restablecer cuenta "+int_3, 620, 242);
             g.drawString("Eliminar cuenta "+int_4, 620, 262);
             g.drawString("Cambiar contraseña "+int_5, 620, 282);
         }
@@ -363,7 +363,7 @@ public class GUI_VerEstadisticas extends JFrame {
             g.setColor(Color.white);
             g.drawString("Ingresar "+int_1, 620, 202);
             g.drawString("Registrarse "+int_2, 620, 222);
-            g.drawString("Reestablecer cuenta "+int_3, 620, 242);
+            g.drawString("Restablecer cuenta "+int_3, 620, 242);
             g.drawString("Eliminar cuenta "+int_4, 620, 262);
             g.drawString("Cambiar contraseña "+int_5, 620, 282);
         }

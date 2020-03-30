@@ -25,10 +25,13 @@ public class GUI_inicio extends JFrame{
     private JButton btn_login;
     private JButton btn_registrar;
     private JButton btn_recuperar;
+    private JButton btn_mostrar;
     private JPasswordField pwf;
+    private JTextField password;
     private JTextField jtf_usuario;
     private JLabel lbl_1;
     private JLabel lbl_2;
+    private boolean vista;
 
     public GUI_inicio(String c,String p){
         //Creacion de colores
@@ -59,16 +62,20 @@ public class GUI_inicio extends JFrame{
         lbl_titulo3 = new JLabel("BUY");
         btn_login = new JButton("Ingresar");
         btn_registrar = new JButton("Registrarme");
-        btn_recuperar = new JButton("Olvide mi contraseña");
+        btn_recuperar = new JButton("Olvidé mi contraseña");
         btn_recuperar.setBorder(null);
+        btn_mostrar = new JButton("Ver");
         pwf = new JPasswordField(p);
+        password = new JTextField(p);
         jtf_usuario = new JTextField(c);
         lbl_1 = new JLabel("Usuario:");
         lbl_2 = new JLabel("Contraseña: ");
+        vista = false;
         
         //Fuente de los elementos
         btn_recuperar.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         btn_registrar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        btn_mostrar.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         btn_login.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         lbl_titulo1.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
         lbl_titulo2.setFont(new Font("Berlin Sans FB",Font.PLAIN,24));
@@ -77,6 +84,7 @@ public class GUI_inicio extends JFrame{
         lbl_2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jtf_usuario.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         pwf.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        password.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
         lbl_titulo1.setBounds(180, 30, 120, 30);
@@ -86,9 +94,12 @@ public class GUI_inicio extends JFrame{
         lbl_2.setBounds(50, 130, 150, 30);
         btn_login.setBounds(50, 180, 120, 30);
         btn_recuperar.setBounds(20, 220, 200, 30);
-        btn_registrar.setBounds(270, 180, 130, 30);        
+        btn_registrar.setBounds(270, 180, 130, 30);     
+        btn_mostrar.setBounds(310, 130, 80, 25);
         jtf_usuario.setBounds(150, 90, 240, 25);
         pwf.setBounds(150, 130, 150, 25);
+        password.setBounds(150, 130, 150, 25);
+        password.setVisible(vista);
         
         //Colores de los elementos
         lbl_titulo1.setForeground(color_azul);
@@ -98,8 +109,10 @@ public class GUI_inicio extends JFrame{
         lbl_2.setForeground(Color.white);
         jtf_usuario.setBackground(color_grisc);
         pwf.setBackground(color_grisc);
+        password.setBackground(color_grisc);
         btn_login.setBackground(color_grisc);
         btn_registrar.setBackground(color_grisc);
+        btn_mostrar.setBackground(color_grisc);
         btn_recuperar.setBackground(color_griso);
         btn_recuperar.setForeground(color_azul);
         
@@ -112,14 +125,17 @@ public class GUI_inicio extends JFrame{
         this.add(btn_login);
         this.add(btn_recuperar); 
         this.add(btn_registrar);
+        this.add(btn_mostrar);
         this.add(lbl_logo);
         this.add(pwf);
+        this.add(password);
         this.add(jtf_usuario);
         
         //Boton de ingreso
         btn_login.addActionListener(ingresar);
         btn_registrar.addActionListener(registrarse);
         btn_recuperar.addActionListener(recuperar);
+        btn_mostrar.addActionListener(mostrarContrasena);
         
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -147,5 +163,23 @@ public class GUI_inicio extends JFrame{
             dispose();
         }
     };
-
+    
+    ActionListener mostrarContrasena = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            if(vista){
+                pwf.setVisible(true);
+                password.setVisible(false);
+                pwf.setText(password.getText());
+                password.setText(pwf.getText());
+                vista = false;
+            }else{
+                pwf.setVisible(false);
+                password.setVisible(true);
+                password.setText(pwf.getText());
+                pwf.setText(password.getText());
+                vista = true;
+            }
+        }
+    }; 
+    
 }

@@ -45,11 +45,15 @@ public class GUI_registrar extends JFrame{
     private JTextField jtf_correo;
     private JPasswordField pwf1;
     private JPasswordField pwf2;
+    private JTextField password1;
+    private JTextField password2;
     private JButton btn_guardar;
     private JButton btn_cancelar;
     private JComboBox jcb_dia;
     private JComboBox jcb_mes;
     private JComboBox jcb_anno;
+    private boolean vista;
+    private JButton btn_mostrar;
         
     public GUI_registrar(String n, String a, String c){
         //Creacion de colores
@@ -79,12 +83,12 @@ public class GUI_registrar extends JFrame{
         lbl_titulo1 = new JLabel("COMPARE");
         lbl_titulo2 = new JLabel("&");
         lbl_titulo3 = new JLabel("BUY");
-        lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicacion pensada para personas ocupadas, no hay necesidad de que busques en diversas paginas web algun producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
+        lbl_mensaje = new JLabel("<html>COMPARE & BUY es un aplicación pensada para personas ocupadas, no hay necesidad de que busques en diversas páginas web algún producto que desees adquirir, COMPARE & BUY lo hace por ti. Trabajamos en sociedad con paginas web como Mercado Libre y OLX para encontrar el mejor precio de los productos.<html>");        
         lbl_nombre = new JLabel("Nombres: *");
         lbl_apellido = new JLabel("Apellidos: ");
         lbl_contrasena = new JLabel("Contraseña: *");
         lbl_correo = new JLabel("Correo: *");
-        lbl_confirmacion1 = new JLabel("Confirmacion  *");
+        lbl_confirmacion1 = new JLabel("Confirmación  *");
         lbl_confirmacion2 = new JLabel("Contraseña: ");
         lbl_fecha1 = new JLabel("Fecha de");
         lbl_fecha2 = new JLabel("Nacimiento: ");
@@ -93,11 +97,15 @@ public class GUI_registrar extends JFrame{
         jtf_correo = new JTextField(c);
         pwf1 = new JPasswordField();
         pwf2 = new JPasswordField();
+        password1 = new JTextField();
+        password2 = new JTextField();
         btn_guardar = new JButton("Guardar Registro");
         btn_cancelar = new JButton("Cancelar");
         jcb_dia = new JComboBox<>();
         jcb_mes = new JComboBox<>();
         jcb_anno = new JComboBox<>();
+        vista = false;
+        btn_mostrar = new JButton("Ver");
         
         //Edicion de listas desplegables                
         jcb_dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"}));
@@ -126,9 +134,14 @@ public class GUI_registrar extends JFrame{
         lbl_mensaje.setFont(new Font("Berlin Sans FB",Font.PLAIN,16));
         pwf1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         pwf2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        password1.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        password1.setVisible(vista);
+        password2.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        password2.setVisible(vista);
         jcb_dia.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jcb_mes.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         jcb_anno.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
+        btn_mostrar.setFont(new Font("Berlin Sans FB",Font.PLAIN,18));
         
         //Posicion de los elementos
         lbl_mensaje.setBounds(180, -30, 330, 200);
@@ -150,9 +163,12 @@ public class GUI_registrar extends JFrame{
         jtf_correo.setBounds(150, 260, 300, 25);
         pwf1.setBounds(150, 310, 250, 25);
         pwf2.setBounds(150, 370, 250, 25);
+        password1.setBounds(150, 310, 250, 25);
+        password2.setBounds(150, 370, 250, 25);
         jcb_dia.setBounds(150, 440, 50, 30);
         jcb_mes.setBounds(210, 440, 120, 30);
         jcb_anno.setBounds(340, 440, 80, 30);
+        btn_mostrar.setBounds(410, 310, 60, 25);
         
         //Colores de los elementos
         lbl_mensaje.setForeground(color_grisc);
@@ -172,6 +188,8 @@ public class GUI_registrar extends JFrame{
         jtf_correo.setBackground(color_grisc);
         pwf1.setBackground(color_grisc);
         pwf2.setBackground(color_grisc);
+        password1.setBackground(color_grisc);
+        password2.setBackground(color_grisc);
         btn_guardar.setBackground(color_grisc);
         btn_cancelar.setBackground(color_grisc);
         jcb_dia.setBackground(color_grisc);
@@ -180,6 +198,7 @@ public class GUI_registrar extends JFrame{
         jcb_dia.setForeground(color_griso);
         jcb_mes.setForeground(color_griso);
         jcb_dia.setForeground(color_griso);
+        btn_mostrar.setBackground(color_grisc);
         
         //Agregar elementos a la ventana
         this.add(lbl_mensaje);
@@ -197,6 +216,8 @@ public class GUI_registrar extends JFrame{
         this.add(lbl_logo);
         this.add(pwf1);
         this.add(pwf2);
+        this.add(password1);
+        this.add(password2);
         this.add(jtf_nombre);
         this.add(jtf_apellido);
         this.add(jtf_correo);
@@ -205,11 +226,14 @@ public class GUI_registrar extends JFrame{
         this.add(jcb_dia);
         this.add(jcb_mes);
         this.add(jcb_anno);
+        this.add(btn_mostrar);
         
         btn_cancelar.addActionListener(cancelar);
         btn_guardar.addActionListener(guardar);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     
+        btn_mostrar.addActionListener(mostrarContrasena);
         
     }
     
@@ -234,5 +258,31 @@ public class GUI_registrar extends JFrame{
             dispose();
         }
     };
+    
+    ActionListener mostrarContrasena = new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+            if(vista){
+                pwf1.setVisible(true);
+                pwf2.setVisible(true);
+                password1.setVisible(false);
+                password2.setVisible(false);
+                pwf1.setText(password1.getText());
+                password1.setText(pwf1.getText());
+                pwf2.setText(password2.getText());
+                password2.setText(pwf2.getText());
+                vista = false;
+            }else{
+                pwf1.setVisible(false);
+                pwf2.setVisible(false);
+                password1.setVisible(true);
+                password2.setVisible(true);
+                password1.setText(pwf1.getText());
+                pwf1.setText(password1.getText());
+                password2.setText(pwf2.getText());
+                pwf2.setText(password2.getText());
+                vista = true;
+            }
+        }
+    }; 
     
 }
